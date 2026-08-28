@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SN / ZP - Ertrag & Aufwand | Abraxas</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>📊</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+    :root { --ink:#17231f; --muted:#66736d; --paper:#f4f0e7; --panel:#fffdf8; --line:#ddd8cc; --teal:#087c74; --soft:#d9eee8; --coral:#c95945; --gold:#d6a526; --navy:#173946; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:Manrope, sans-serif; }
+    body:before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.3; background-image:radial-gradient(#b9b2a2 .7px,transparent .7px); background-size:17px 17px; }
+    .shell { max-width:1380px; margin:auto; padding:26px 40px 56px; position:relative; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:20px; border-bottom:1px solid var(--line); padding-bottom:20px; }
+    .brand { display:flex; gap:12px; align-items:center; font-weight:800; letter-spacing:0; }
+    .mark { display:grid; place-items:center; width:34px; height:34px; background:var(--teal); color:#fff; border-radius:9px; }
+    .brand small,.date,.eyebrow,.tag { font:11px 'DM Mono',monospace; color:var(--muted); }
+    .brand small { display:block; letter-spacing:.06em; margin-top:2px; }
+    nav { display:flex; gap:7px; overflow:auto; padding:18px 0; border-bottom:1px solid var(--line); }
+    button { font:inherit; cursor:pointer; }
+    .tab { white-space:nowrap; border:1px solid transparent; border-radius:5px; background:transparent; color:var(--muted); padding:10px 14px; font-weight:700; font-size:13px; }
+    .tab:hover,.tab.active { background:var(--panel); border-color:var(--line); color:var(--teal); }
+    .intro { display:flex; justify-content:space-between; gap:30px; align-items:end; margin:34px 0 24px; }
+    .eyebrow { color:var(--coral); letter-spacing:.1em; text-transform:uppercase; }
+    h1 { max-width:720px; margin:8px 0 0; font-size:44px; line-height:1.03; letter-spacing:0; }
+    .intro p { max-width:400px; color:var(--muted); font-size:13px; line-height:1.6; margin:0; }
+    .summary { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:18px; }
+    .stat,.panel { background:var(--panel); border:1px solid var(--line); }
+    .stat { padding:19px; min-height:132px; position:relative; overflow:hidden; }
+    .stat:after { content:""; position:absolute; width:68px; height:68px; right:-22px; bottom:-26px; border:1px solid var(--soft); border-radius:50%; }
+    .label { color:var(--muted); font-size:12px; font-weight:700; }
+    .value { margin:15px 0 9px; font-size:30px; font-weight:800; letter-spacing:0; }
+    .delta { color:var(--teal); font:10px 'DM Mono',monospace; }
+    .warn .delta { color:var(--coral); }
+    .grid { display:grid; grid-template-columns:1.3fr .7fr; gap:18px; }
+    .panel { padding:23px; margin-bottom:18px; }
+    .panel-head { display:flex; justify-content:space-between; gap:16px; align-items:start; margin-bottom:18px; }
+    h2 { margin:0 0 4px; font-size:18px; letter-spacing:0; }
+    h3 { margin:20px 0 9px; font-size:14px; }
+    .panel-head p,.note { margin:0; color:var(--muted); font-size:12px; line-height:1.55; }
+    .tag { padding:6px 8px; background:var(--soft); color:var(--teal); border:1px solid #b9ddd5; white-space:nowrap; }
+    .metric { display:grid; grid-template-columns:minmax(0,1fr) 130px 80px; align-items:center; gap:12px; border-top:1px solid var(--line); padding:14px 0; font-size:12px; }
+    .metric strong { display:block; font-size:12px; }
+    .metric small { color:var(--muted); font-size:10px; }
+    .metric .number { text-align:right; font-size:18px; font-weight:800; }
+    .metric .state { text-align:right; color:var(--coral); font:10px 'DM Mono',monospace; }
+    .callout { background:var(--navy); color:#fff; padding:25px; }
+    .callout .eyebrow { color:#f1ca55; }
+    .callout h2 { font-size:25px; line-height:1.12; margin:17px 0; }
+    .callout p { color:#cbd7d5; font-size:13px; line-height:1.6; }
+    .table-wrap { overflow:auto; border:1px solid var(--line); }
+    table { width:100%; min-width:690px; border-collapse:collapse; text-align:left; }
+    th { padding:11px 13px; background:#f8f5ed; border-bottom:1px solid var(--line); color:var(--muted); font:10px 'DM Mono',monospace; text-transform:uppercase; }
+    td { padding:13px; border-bottom:1px solid var(--line); font-size:12px; vertical-align:top; }
+    tr:last-child td { border-bottom:0; }
+    tr.total td { background:#fbf8f0; font-weight:800; }
+    .money { font-size:16px; font-weight:800; white-space:nowrap; }
+    .risk { display:grid; grid-template-columns:105px 1fr 70px; gap:12px; align-items:center; margin:15px 0; font-size:12px; font-weight:700; }
+    .bar { height:9px; background:#e6e1d6; }
+    .bar i { display:block; height:100%; background:var(--coral); }
+    .risk b { color:var(--coral); font:11px 'DM Mono',monospace; }
+    .view.hidden { display:none; }
+    footer { border-top:1px solid var(--line); padding-top:15px; color:var(--muted); display:flex; justify-content:space-between; gap:20px; font:10px 'DM Mono',monospace; }
+    @media (max-width:850px) { .shell { padding:20px; } .intro,.grid { display:block; } .intro p { margin-top:18px; } .summary { grid-template-columns:repeat(2,1fr); } .callout { margin-bottom:18px; } }
+    @media (max-width:500px) { h1 { font-size:34px; } .summary { gap:8px; } .stat { padding:15px; } .value { font-size:25px; } footer { display:block; line-height:1.7; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header><div class="brand"><span class="mark">S</span><div>SN / ZP - EOL<small>Ertrag, Aufwand, Demografie und Risiken</small></div></div><div class="date">Stand 19.08.2026</div></header>
+    <nav aria-label="Sichten"><button class="tab active" data-view="common">Gemeinsame Sicht</button><button class="tab" data-view="sn-finance">SN Ertrag & Aufwand</button><button class="tab" data-view="zp-finance">ZP Ertrag & Aufwand</button><button class="tab" data-view="demography">Demografie</button><button class="tab" data-view="risks">Risiken</button></nav>
+    <section class="intro"><div><div class="eyebrow">Management-Steuerung</div><h1>Kunden, Kernumsatz und Kosten im selben Entscheidbild.</h1></div><p>Erträge und Vollkosten stammen aus der verbindlichen Jahresplanung inklusive direkter Kosten, Personal, ILV und ITS.</p></section>
+
+    <section id="common" class="view">
+      <div class="summary"><article class="stat"><div class="label">Gesamtertrag 2026</div><div class="value">CHF 34,22 Mio.</div><div class="delta">Planung · alle Kunden</div></article><article class="stat"><div class="label">Gesamtertrag SN + ZP</div><div class="value">CHF 34,22 Mio.</div><div class="delta">SN CHF 14,81 Mio. · ZP CHF 19,41 Mio.</div></article><article class="stat"><div class="label">Vollkosten SN + ZP</div><div class="value">CHF 19,71 Mio.</div><div class="delta">Vollkosten 2026</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article></div>
+      <div class="panel"><div class="panel-head"><div><h2>Umsätze bei den Kunden</h2><p>Gesamterträge gemäss verbindlicher Planung inklusive Kantone und Gemeinden</p></div><span class="tag">CHF 34,22 MIO.</span></div><div class="table-wrap"><table><thead><tr><th>Kunde</th><th>Gesamtertrag 2026</th><th>Anteil</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>KStA ZH</strong></td><td class="money">CHF 14’112’000</td><td>41,2 %</td><td>Wartung & Betrieb, Direktaufträge, Kundenprojekte und ITS</td></tr><tr><td><strong>KStA SG</strong></td><td class="money">CHF 8’625’000</td><td>25,2 %</td><td>Wartung & Betrieb, Direktaufträge und Kundenprojekte</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>15,5 %</td><td>Betrieb, DA und Kundenprojekte</td></tr><tr><td><strong>Cantone Ticino</strong></td><td class="money">CHF 3’909’000</td><td>11,4 %</td><td>Wartung & Betrieb sowie Kundenprojekte</td></tr><tr><td><strong>Gemeinden SN</strong></td><td class="money">CHF 2’273’000</td><td>6,6 %</td><td>Betrieb Gemeinden SG & TG</td></tr><tr class="total"><td>Total</td><td class="money">CHF 34’219’000</td><td>100,0 %</td><td>SN und ZP · verbindliche Planung</td></tr></tbody></table></div></div>
+      <div class="grid"><article class="panel"><div class="panel-head"><div><h2>Gemeinsame Steuerung</h2><p>Ertrag, Aufwand, Kosten und Kapazität</p></div><span class="tag">2026</span></div><div class="metric"><div><strong>Gesamtertrag</strong><small>Verbindliche Planung aller Kunden</small></div><div class="number">34,22 Mio.</div><div class="state">CHF</div></div><div class="metric"><div><strong>Aufwand</strong><small>Budgetstunden SVZ für SN und ZP</small></div><div class="number">29’438 h</div><div class="state">SVZ</div></div><div class="metric"><div><strong>Vollkosten</strong><small>direkte Kosten, Personal, ILV und ITS</small></div><div class="number">19,71 Mio.</div><div class="state">PLAN</div></div><div class="metric"><div><strong>FTE heute → morgen</strong><small>vier SVZ Teams</small></div><div class="number">29,0 → 14,5</div><div class="state">−50 %</div></div></article><aside class="callout"><div class="eyebrow">Entscheidpunkt</div><h2>Restbetrieb nicht aus heutiger Kapazität ableiten.</h2><p>SN endet fachlich gestaffelt bis 2032. ZP benötigt nach 2032 einen separat finanzierten und personell abgesicherten Betriebspfad.</p></aside></div>
+    </section>
+
+    <section id="sn-finance" class="view hidden">
+      <div class="summary"><article class="stat"><div class="label">SN Gesamtertrag 2026</div><div class="value">CHF 14,81 Mio.</div><div class="delta">Kantone SG/TI + Gemeinden SG/TG</div></article><article class="stat"><div class="label">SN Vollkosten 2026</div><div class="value">CHF 7,54 Mio.</div><div class="delta">direkte Kosten, Personal und ILV</div></article><article class="stat"><div class="label">SN ILV 2026</div><div class="value">CHF 4,10 Mio.</div><div class="delta">Technologie, Security, Synergien</div></article><article class="stat warn"><div class="label">SN Ende Planung</div><div class="value">2035</div><div class="delta">Restbetrieb danach separat entscheiden</div></article></div>
+      <div class="panel"><div class="panel-head"><div><h2>SN: Ertrag und Aufwand</h2><p>Gesamtertrag, Vollkosten und das gestaffelte Ende der neuen Steuerperioden</p></div><span class="tag">SN · bis 2035</span></div><div class="table-wrap"><table><thead><tr><th>Perspektive</th><th>Wert 2026</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>SN Gesamtertrag</strong></td><td class="money">CHF 14’807’000</td><td>Kantone SG/TI CHF 12’534’000 + Gemeinden SG/TG CHF 2’273’000</td></tr><tr><td><strong>Vollkosten SN</strong></td><td class="money">CHF 7’535’000</td><td>direkte Kosten, Personalkosten und CHF 4’098’000 ILV</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">9’798 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr></tbody></table></div><h3>SN Kosten- und Ertrags-Lifecycle</h3><div class="table-wrap"><table><thead><tr><th>Jahr</th><th>Gesamtertrag</th><th>Vollkosten</th><th>Marge</th><th>Bemerkung</th></tr></thead><tbody><tr><td><strong>2026</strong></td><td>CHF 12’534’000</td><td>CHF 7’535’000</td><td class="money">CHF 4’999’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2027</strong></td><td>CHF 12’329’000</td><td>CHF 7’494’000</td><td class="money">CHF 4’835’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2028</strong></td><td>CHF 12’289’000</td><td>CHF 7’700’000</td><td class="money">CHF 4’589’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2029</strong></td><td>CHF 12’289’000</td><td>CHF 7’630’000</td><td class="money">CHF 4’659’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2030</strong></td><td>CHF 12’289’000</td><td>CHF 7’558’000</td><td class="money">CHF 4’731’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung; Abgang TG</td></tr><tr><td><strong>2031</strong></td><td>CHF 8’505’000</td><td>CHF 7’358’000</td><td class="money">CHF 1’147’000</td><td>Abgang TI; SG bleibt im Betrieb</td></tr><tr><td><strong>2032</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Betrieb bestehender Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2033</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Betrieb bestehender Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2034</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Bestehende Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr></tbody></table></div><p class="note">Ertrag, Vollkosten und Marge bis 2031 aus der verbindlichen Jahresplanung, inklusive Gemeinden SG/TG. Ab 2032 sind Restbetrieb und Kosten nicht in der aktuellen Planung enthalten.</p></div>
+      <div class="panel"><div class="panel-head"><div><h2>ZP: Ertrag und Aufwand</h2><p>Gesamtertrag, Vollkosten und Restbetrieb</p></div><span class="tag">ZP · bis 2035</span></div><div class="table-wrap"><table><thead><tr><th>Perspektive</th><th>Wert 2026</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>Kanton ZH</strong></td><td class="money">CHF 14’112’000</td><td>Wartung & Betrieb, Direktaufträge, Kundenprojekte und ITS</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb, DA und Kundenprojekte</td></tr><tr class="total"><td><strong>ZP Gesamtertrag</strong></td><td class="money">CHF 19’412’000</td><td>Kanton ZH CHF 14’112’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP</strong></td><td class="money">CHF 12’178’000</td><td>Direkte Kosten, Personal, ILV und ITS</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr></tbody></table></div><h3>ZP Kosten- und Ertrags-Lifecycle</h3><div class="table-wrap"><table><thead><tr><th>Jahr</th><th>Gesamtertrag</th><th>Vollkosten</th><th>Marge</th><th>Bemerkung</th></tr></thead><tbody><tr><td><strong>2026</strong></td><td>CHF 19’412’000</td><td>CHF 12’178’000</td><td class="money">CHF 7’234’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2027</strong></td><td>CHF 19’144’000</td><td>CHF 12’388’000</td><td class="money">CHF 6’756’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2028</strong></td><td>CHF 19’037’000</td><td>CHF 12’438’000</td><td class="money">CHF 6’599’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2029</strong></td><td>CHF 19’037’000</td><td>CHF 12’400’000</td><td class="money">CHF 6’637’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2030</strong></td><td>CHF 19’037’000</td><td>CHF 12’344’000</td><td class="money">CHF 6’693’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2031</strong></td><td>CHF 19’037’000</td><td>CHF 12’664’000</td><td class="money">CHF 6’373’000</td><td>Betrieb inklusive Wartung</td></tr><tr><td><strong>2032</strong></td><td>CHF 19’037’000</td><td>CHF 15’094’000</td><td class="money">CHF 3’943’000</td><td>Bestehende Steuerperioden. Muss neu vereinbart werden.</td></tr><tr><td><strong>2033</strong></td><td>CHF 19’037’000</td><td>CHF 15’194’000</td><td class="money">CHF 3’843’000</td><td>Bestehende Steuerperioden / Readonly. Muss neu vereinbart werden.</td></tr><tr><td><strong>2034</strong></td><td>CHF 19’037’000</td><td>CHF 15’266’000</td><td class="money">CHF 3’771’000</td><td>Bestehende Steuerperioden / Readonly. Muss neu vereinbart werden.</td></tr><tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr></tbody></table></div><p class="note">Ertrag, Vollkosten und EBITDA/Marge aus der verbindlichen Jahresplanung, inklusive KStA ZH und Gemeinden ZH.</p></div>
+    </section>
+
+    <section id="demography" class="view hidden"></section>
+
+    <section id="risks" class="view hidden">
+      <div class="grid"><article class="panel"><div class="panel-head"><div><h2>Risikoportfolio</h2><p>Fokus aus Planung, Vollkosten und Demografie</p></div><span class="tag">HOCH</span></div><div class="risk"><span>ABP Know-how</span><div class="bar"><i style="width:80%"></i></div><b>−80 %</b></div><div class="risk"><span>ILV-Anstieg</span><div class="bar"><i style="width:72%"></i></div><b>CHF 6,98 Mio.</b></div><div class="risk"><span>ZP Restbetrieb</span><div class="bar"><i style="width:75%"></i></div><b>2035 offen</b></div><div class="risk"><span>SN Betriebsende</span><div class="bar"><i style="width:68%"></i></div><b>2030–32</b></div></article><aside class="callout"><div class="eyebrow">Hauptfrage</div><h2>Wer finanziert und erbringt den Restbetrieb?</h2><p>Ohne separaten Entscheid bleiben Restbetrieb, ILV, Security und die dafür nötigen Schlüsselrollen nicht gesichert.</p></aside></div>
+      <div class="panel"><div class="panel-head"><div><h2>Steuerungsbedarf</h2><p>Konkrete Entscheide für die nächste Management-Runde</p></div></div><div class="metric"><div><strong>SN Restbetrieb</strong><small>Bestehende Steuerperioden nach 2032</small></div><div class="number">1 Mandat</div><div class="state">OFFEN</div></div><div class="metric"><div><strong>ZP Betrieb bis 2035</strong><small>KStA ZH erwartet abgesicherten Pfad</small></div><div class="number">1 Plan</div><div class="state">NICHT GARANTIERT</div></div><div class="metric"><div><strong>ILV und ITS</strong><small>Technologie, Security und Synergieeffekte bepreisen</small></div><div class="number">CHF 12,05 Mio.</div><div class="state">PRÜFEN</div></div></div>
+    </section>
+    <footer><span>Quelle: verbindliche Datenbasis SN_ZP_Datenbasis.xlsx</span><span>Vollkosten enthalten direkte Kosten, Personal, ILV und ITS.</span></footer>
+  </main>
+  <script>
+    const snFinance = document.getElementById('sn-finance');
+    const zpFinance = document.createElement('section');
+    zpFinance.id = 'zp-finance';
+    zpFinance.className = 'view hidden';
+    const snFinancePanels = snFinance.querySelectorAll('.panel');
+    const zpSummary = snFinance.querySelector('.summary').cloneNode(true);
+    zpSummary.innerHTML = `<article class="stat"><div class="label">ZP Gesamtertrag 2026</div><div class="value">CHF 19,41 Mio.</div><div class="delta">10,44 Mio STE · 8,97 Mio ITS</div></article><article class="stat"><div class="label">Kanton ZH</div><div class="value">CHF 14,11 Mio.</div><div class="delta">Wartung, DA, Projekte und ITS</div></article><article class="stat"><div class="label">Gemeinden ZH</div><div class="value">CHF 5,30 Mio.</div><div class="delta">Betrieb, DA und Kundenprojekte</div></article><article class="stat warn"><div class="label">ZP Betrieb ab 2033</div><div class="value">offen</div><div class="delta">Planung vorhanden; neu zu vereinbaren</div></article>`;
+    zpFinance.append(zpSummary, snFinancePanels[1]);
+    snFinance.after(zpFinance);
+    zpFinance.querySelector('.panel-head .tag').textContent = 'ZP · bis 2035';
+    const zpPerspectiveBody = zpFinance.querySelector('.panel table tbody');
+    zpPerspectiveBody.innerHTML = `<tr><td><strong>Kanton ZH</strong></td><td class="money">CHF 14’112’000</td><td>Wartung & Betrieb CHF 4’432’000, Direktaufträge CHF 210’000, Kundenprojekte CHF 502’000 und Ertrag ITS CHF 8’968’000</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb CHF 5’190’000, DA CHF 87’000 und Kundenprojekte CHF 23’000</td></tr><tr class="total"><td><strong>ZP Gesamtertrag</strong></td><td class="money">CHF 19’412’000</td><td>Kanton ZH CHF 14’112’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP</strong></td><td class="money">CHF 12’178’000</td><td>Direkte Kosten CHF 465’000, Personal CHF 3’762’000, ILV CHF 2’878’000 und ITS CHF 5’073’000</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr>`;
+    const zpLifecycle = zpFinance.querySelector('h3 + .table-wrap tbody');
+    const zpYearRows = Array.from(zpLifecycle.rows);
+    const zp2034 = zpYearRows.find(row => row.cells[0].textContent.trim() === '2034');
+    zp2034.cells[4].textContent = 'Bestehende Steuerperioden / Readonly gemäss Planung. Muss neu vereinbart werden.';
+    zp2034.insertAdjacentHTML('afterend', '<tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr>');
+    zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Gesamtertrag KStA ZH';
+    const annualRevenue = {
+      'sn-finance': { 2026: ['14’807’000', '7’272’000'], 2027: ['14’628’000', '7’134’000'], 2028: ['14’588’000', '6’888’000'], 2029: ['14’588’000', '6’958’000'], 2030: ['12’588’000', '5’030’000'], 2031: ['8’804’000', '1’446’000'] },
+      'zp-finance': { 2026: ['19’412’000', '7’234’000'], 2027: ['19’144’000', '6’756’000'], 2028: ['19’037’000', '6’599’000'], 2029: ['19’037’000', '6’637’000'], 2030: ['19’037’000', '6’693’000'], 2031: ['19’037’000', '6’373’000'], 2032: ['19’037’000', '3’943’000'], 2033: ['19’037’000', '3’843’000'], 2034: ['19’037’000', '3’771’000'] }
+    };
+    for (const [viewId, values] of Object.entries(annualRevenue)) {
+      const lifecycleRows = document.querySelectorAll(`#${viewId} h3 + .table-wrap tbody tr`);
+      lifecycleRows.forEach(row => {
+        const year = row.cells[0].textContent.trim();
+        if (!values[year]) return;
+        row.cells[1].textContent = `CHF ${values[year][0]}`;
+        row.cells[3].textContent = `CHF ${values[year][1]}`;
+      });
+    }
+    document.querySelector('#sn-finance .note').textContent = 'Ertrag, Vollkosten und Marge bis 2031 aus der verbindlichen Jahresplanung, inklusive Gemeinden SG/TG. Ab 2032 sind Restbetrieb und Kosten nicht in der aktuellen Planung enthalten.';
+    zpLifecycle.closest('.panel').querySelector('.note').textContent = 'Ertrag, Vollkosten und EBITDA/Marge aus der verbindlichen Jahresplanung, inklusive KStA ZH und Gemeinden ZH. Ab 2032 ist die Planung kein Ersatz für eine neue Betriebsvereinbarung.';
+    zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Gesamtertrag inkl. Gemeinden';
+    const dashboardDemographyData = (() => {
+      try {
+        const stored = localStorage.getItem('demografie_planung_data_v7');
+        const parsed = stored ? JSON.parse(stored) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    })();
+    const dashboardCoreTeams = ['ABP', 'EZR', 'EZV', 'SNV', 'SVZ'];
+    const dashboardYears = [2026, 2030, 2033, 2034, 2036];
+    const dashboardCardYears = [2026, 2030, 2033, 2034];
+    const dashboardFormatFte = value => `${value.toFixed(2).replace('.', ',')} FTE`;
+    const dashboardFte = (employee, year) => (employee.fachgebiete || []).reduce((sum, fachgebiet) => sum + (Number(fachgebiet.jahre?.[year]) || 0), 0);
+    const dashboardTeamEmployees = team => dashboardDemographyData.filter(employee => team === 'OTHER' ? !dashboardCoreTeams.includes(employee.team) : employee.team === team);
+    const dashboardTotal = year => dashboardDemographyData.reduce((sum, employee) => sum + dashboardFte(employee, year), 0);
+    const dashboardTeamTotal = (team, year) => dashboardTeamEmployees(team).reduce((sum, employee) => sum + dashboardFte(employee, year), 0);
+    const dashboardTeams = [...dashboardCoreTeams, 'OTHER'];
+    const dashboardStat = (label, value, delta, warning = false) => `<article class="stat${warning ? ' warn' : ''}"><div class="label">${label}</div><div class="value">${value}</div></article>`;
+    const dashboardSummary = dashboardCardYears.map(year => dashboardStat(`FTE gesamt ${year}`, dashboardFormatFte(dashboardTotal(year)), 'Pensen aus Demografieplanung', year >= 2033)).join('');
+    const dashboardRows = dashboardTeams.map(team => {
+      const label = team === 'OTHER' ? 'Alle anderen' : team;
+      return `<tr><td><strong>${label}</strong></td>${dashboardYears.map(year => `<td>${dashboardFormatFte(dashboardTeamTotal(team, year))}</td>`).join('')}<td>${dashboardTeamEmployees(team).length} MA</td></tr>`;
+    }).join('');
+    document.getElementById('demography').innerHTML = `<div class="summary">${dashboardSummary}</div><div class="panel"><div class="panel-head"><div><h2>Demografie nach Teams</h2><p>Team-Pensen aus dem aktuellen JSON-Datenstand</p></div><a class="tag" href="sn_zp_demografie_planung.html">Zur Demografie-Planung</a></div><div class="table-wrap"><table><thead><tr><th>Team</th>${dashboardYears.map(year => `<th>FTE ${year}</th>`).join('')}<th>Mitarbeitende</th></tr></thead><tbody>${dashboardRows}<tr class="total"><td>Total</td>${dashboardYears.map(year => `<td>${dashboardFormatFte(dashboardTotal(year))}</td>`).join('')}<td>${dashboardDemographyData.length} MA</td></tr></tbody></table></div></div>`;
+    async function loadDashboardJsonFallback() {
+      if (dashboardDemographyData.length) return;
+      try {
+        const response = await fetch('demografie.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('JSON nicht erreichbar');
+        const data = await response.json();
+        if (Array.isArray(data) && data.length) {
+          localStorage.setItem('demografie_planung_data_v7', JSON.stringify(data));
+          window.location.reload();
+          return;
+        }
+      } catch (error) {
+        const panel = document.querySelector('#demography .panel');
+        if (!panel) return;
+        const message = document.createElement('p');
+        message.className = 'note';
+        message.textContent = 'JSON-Daten konnten nicht automatisch geladen werden. Bitte Datei auswählen.';
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json,application/json';
+        input.addEventListener('change', event => {
+          const file = event.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            try {
+              const data = JSON.parse(reader.result);
+              if (!Array.isArray(data) || !data.length) throw new Error('Ungültige JSON-Datei');
+              localStorage.setItem('demografie_planung_data_v7', JSON.stringify(data));
+              window.location.reload();
+            } catch (parseError) {
+              message.textContent = 'Ungültige JSON-Datei.';
+            }
+          };
+          reader.readAsText(file, 'UTF-8');
+        });
+        message.appendChild(document.createElement('br'));
+        message.appendChild(input);
+        panel.appendChild(message);
+      }
+    }
+    loadDashboardJsonFallback();
+    const riskPanel = document.querySelector('#risks .panel');
+    riskPanel.querySelector('.tag').textContent = 'KNOW-HOW + SECURITY';
+    riskPanel.querySelector('.panel-head p').textContent = 'Hauptrisiken aus Planung, Vollkosten und Demografie';
+    riskPanel.querySelector('.risk').insertAdjacentHTML('afterend', '<div class="risk"><span>Security</span><div class="bar"><i style="width:78%"></i></div><b>HOCH</b></div>');
+    const riskCallout = document.querySelector('#risks .callout');
+    riskCallout.querySelector('h2').textContent = 'Know-how und Security bestimmen den Restbetrieb.';
+    riskCallout.querySelector('p').textContent = 'Neue KI-gestützte Bedrohungsszenarien erhöhen den Absicherungs- und Änderungsbedarf. Ohne Security-Fähigkeit und Schlüsselwissen bleibt ein Restbetrieb nicht verantwortbar.';
+    const tabs = document.querySelectorAll('.tab');
+    const views = document.querySelectorAll('.view');
+    tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(item => item.classList.toggle('active', item === tab)); views.forEach(view => view.classList.toggle('hidden', view.id !== tab.dataset.view)); window.scrollTo({ top:0, behavior:'smooth' }); }));
+    const initialTab = document.querySelector(`.tab[data-view="${window.location.hash.slice(1)}"]`);
+    if (initialTab) initialTab.click();
+  </script>
+</body>
+</html>

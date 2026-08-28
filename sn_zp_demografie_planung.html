@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demografie-Planung 2026-2036</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .toolbar {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ee5a52;
+        }
+
+        .status {
+            margin-left: auto;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .json-status {
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+            min-width: 140px;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .summary-row {
+            background: #e8eaf6;
+            display: flex;
+            padding: 12px 20px;
+            border-bottom: 2px solid #667eea;
+            font-weight: 600;
+            color: #667eea;
+            gap: 10px;
+            overflow-x: auto;
+            align-items: center;
+            min-width: 1260px;
+        }
+
+        .summary-cell {
+            min-width: 80px;
+            text-align: center;
+            padding: 4px 8px;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .summary-label {
+            min-width: 250px;
+            text-align: left;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 180px 80px 120px repeat(11, 80px);
+            gap: 0;
+        }
+
+        .summary-cell,
+        .summary-label {
+            min-width: 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        .data-table {
+            width: 1260px;
+            min-width: 1260px;
+            table-layout: fixed;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table thead {
+            background: #f0f2f5;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            font-weight: 600;
+            font-size: 12px;
+            vertical-align: middle;
+            line-height: 1.2;
+        }
+
+        .data-table thead tr:first-child th {
+            height: 42px;
+        }
+
+        .data-table thead tr:nth-child(2) th {
+            height: 42px;
+        }
+
+        .data-table th.label-col {
+            text-align: left;
+            width: 180px;
+        }
+
+        .data-table th.team-col {
+            width: 80px;
+        }
+
+        .data-table th.fachgebiet-col {
+            width: 120px;
+        }
+
+        .fachgebiet-cell-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .delete-fachgebiet {
+            border: 0;
+            background: transparent;
+            color: #c95945;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 2px;
+        }
+
+        .delete-fachgebiet:hover {
+            color: #aa4636;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .data-table td.label-col {
+            text-align: left;
+            font-weight: 500;
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .data-table tbody tr.parent-row {
+            background: #fafafa;
+        }
+
+        .data-table tbody tr.child-row {
+            background: white;
+        }
+
+        .data-table tbody tr.child-row td {
+            padding-left: 40px;
+        }
+
+        .data-table tbody tr.child-row td:not(.label-col) {
+            padding-left: 12px;
+        }
+
+        .row-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 32px;
+        }
+
+        .name-display {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .name-display:hover {
+            background: #e3f2fd;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .name-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .year-input {
+            width: 50px;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            display: block;
+            margin-left: 0;
+        }
+
+        .year-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f0f7ff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .phase-header-2026-2030 {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .phase-header-2031-2033 {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .phase-header-2034-2036 {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .year-cell-2026-2030 {
+            background: #e8f5e9;
+        }
+
+        .year-cell-2031-2033 {
+            background: #fff3e0;
+        }
+
+        .year-cell-2034-2036 {
+            background: #f3e5f5;
+        }
+
+        .team-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .team-ezv {
+            background: #ffe0b2;
+            color: #e65100;
+        }
+
+        .team-ezr {
+            background: #bbdefb;
+            color: #1565c0;
+        }
+
+        .team-snv {
+            background: #f8bbd0;
+            color: #c2185b;
+        }
+
+        .team-abp {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .json-file-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .json-file-name {
+            color: #666;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .indent-indicator {
+            display: inline-block;
+            width: 20px;
+            color: #aaa;
+            font-weight: bold;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        /* Dashboard palette */
+        body { background: #f4f0e7; color: #17231f; }
+        .container { background: #fffdf8; box-shadow: 0 18px 55px rgba(37, 46, 39, 0.08); }
+        .header { background: #173946; }
+        .toolbar, .filter-section { background: #fffdf8; border-color: #ddd8cc; }
+        .btn-primary { background: #087c74; }
+        .btn-primary:hover { background: #06665f; box-shadow: 0 4px 12px rgba(8, 124, 116, 0.25); }
+        .btn-secondary { background: #d9eee8; color: #173946; }
+        .btn-secondary:hover { background: #c2e2da; }
+        .btn-danger { background: #c95945; }
+        .btn-danger:hover { background: #aa4636; }
+        .summary-row { background: #d9eee8; border-bottom-color: #087c74; color: #087c74; }
+        .data-table thead { background: #f8f5ed; }
+        .data-table tbody tr.parent-row { background: #fbf8f0; }
+        .name-display:hover { background: #d9eee8; }
+        .filter-group select:focus, .year-input:focus { border-color: #087c74; }
+        .phase-header-2026-2030 { background: #d9eee8; color: #087c74; }
+        .phase-header-2031-2033 { background: #fff4d6; color: #9a7100; }
+        .phase-header-2034-2036 { background: #fbe4de; color: #c95945; }
+        .year-cell-2026-2030 { background: #edf8f5; }
+        .year-cell-2031-2033 { background: #fff7e8; }
+        .year-cell-2034-2036 { background: #fdf0ed; }
+        .team-ezv { background: #fff4d6; color: #9a7100; }
+        .team-ezr { background: #d9eee8; color: #087c74; }
+        .team-snv { background: #fbe4de; color: #c95945; }
+        .team-abp { background: #e8f0d8; color: #55752c; }
+        .container { border: 1px solid #ddd8cc; box-shadow: 0 18px 55px rgba(37, 46, 39, 0.08); }
+        .header { background: #e8e6df; color: #17231f; border-bottom: 1px solid #ddd8cc; }
+        .header p { color: #66736d; opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Demografie-Planung 2026-2036</h1>
+            <p>Interaktive Verwaltung von Mitarbeiter-Pensen mit Fachgebieten</p>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn btn-primary" onclick="exportCSV()">📥 CSV exportieren</button>
+            <a class="btn btn-secondary" href="SN_ZP_Dashboard.html#demography">↩️ Back to Dashboard</a>
+            <div id="jsonStatus" class="json-status">Datenbasis: demografie.json · Letztes Update: wird geladen ...</div>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-group">
+                <label>Team</label>
+                <select id="filterTeam">
+                    <option value="">Alle Teams</option>
+                    <option value="ABP">ABP</option>
+                    <option value="EZR">EZR</option>
+                    <option value="EZV">EZV</option>
+                    <option value="SNV">SNV</option>
+                    <option value="SVZ">SVZ</option>
+                    <option value="__OTHER__">Alle anderen</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Fachgebiet</label>
+                <select id="filterFachgebiet">
+                    <option value="">Alle Fachgebiete</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Mitarbeiter</label>
+                <select id="filterMitarbeiter">
+                    <option value="">Alle MA</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="summary-row" id="summaryRow"></div>
+
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="label-col">Name</th>
+                        <th class="team-col">Team</th>
+                        <th class="fachgebiet-col">Fachgebiet</th>
+                        <th colspan="5" class="phase-header-2026-2030">Weiterentwicklung</th>
+                        <th colspan="3" class="phase-header-2031-2033">Wartung</th>
+                        <th colspan="3" class="phase-header-2034-2036">Read-Only</th>
+                    </tr>
+                    <tr>
+                        <th class="label-col"></th>
+                        <th class="team-col"></th>
+                        <th class="fachgebiet-col"></th>
+                        <th class="year-cell-2026-2030">2026</th>
+                        <th class="year-cell-2026-2030">2027</th>
+                        <th class="year-cell-2026-2030">2028</th>
+                        <th class="year-cell-2026-2030">2029</th>
+                        <th class="year-cell-2026-2030">2030</th>
+                        <th class="year-cell-2031-2033">2031</th>
+                        <th class="year-cell-2031-2033">2032</th>
+                        <th class="year-cell-2031-2033">2033</th>
+                        <th class="year-cell-2034-2036">2034</th>
+                        <th class="year-cell-2034-2036">2035</th>
+                        <th class="year-cell-2034-2036">2036</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div id="noResults" class="no-results" style="display: none;">Keine Einträge gefunden</div>
+        </div>
+    </div>
+
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">JSON importieren</div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>JSON-Datei auswählen oder Daten einfügen:</label>
+                    <div class="json-file-row">
+                        <label class="btn btn-secondary" for="jsonFileInput">📄 Datei auswählen</label>
+                        <input id="jsonFileInput" type="file" accept=".json,application/json" style="display: none" onchange="loadJSONFile(event)">
+                        <span id="jsonFileName" class="json-file-name">Keine Datei ausgewählt</span>
+                    </div>
+                    <textarea id="importTextarea" placeholder="Exportierte JSON-Daten hier einfügen..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeImportModal()">Abbrechen</button>
+                <button class="btn btn-primary" onclick="importJSON()">Importieren</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
+        const STORAGE_KEY = 'demografie_planung_data_v7';
+        const CENTRAL_JSON_FILE = 'demografie.json';
+        const DATA_URL = window.location.protocol === 'file:'
+            ? 'http://127.0.0.1:8000/demografie.json'
+            : CENTRAL_JSON_FILE;
+        let employees;
+        let filteredRows;
+        let dataLastUpdated = 'wird geladen ...';
+
+        const DEFAULT_EMPLOYEES = [
+            {
+                name: 'G. Sprenger',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.6, 2027: 0.6, 2028: 0.6, 2029: 0.6, 2030: 0.6, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'J. Savanović',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'A. Gygax',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Neumann',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } },
+                    { name: 'Wartung & Bugfixing', jahre: { 2026: 0, 2027: 0, 2028: 0, 2029: 0, 2030: 0, 2031: 0.2, 2032: 0.2, 2033: 0.2, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'Th. Bücking',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'D. Blatt',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.85, 2027: 0.85, 2028: 0.85, 2029: 0.85, 2030: 0.85, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'A. Götz',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.7, 2027: 0.7, 2028: 0.7, 2029: 0.7, 2030: 0.7, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'G. Meistert',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.7, 2027: 0.7, 2028: 0.7, 2029: 0.7, 2030: 0.7, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'P. Ammann',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'R. Muntwÿler',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Schiffmann',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Meier',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'G. Knudsen',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0.7, 2027: 0.7, 2028: 0.7, 2029: 0.7, 2030: 0.7, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'U. Gubser',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'S. Spiller',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 0.7, 2027: 0.7, 2028: 0.7, 2029: 0.7, 2030: 0.7, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } },
+                    { name: 'Client', jahre: { 2026: 0.3, 2027: 0.3, 2028: 0.3, 2029: 0.3, 2030: 0.3, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Fricke',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Reiff',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Vujačić',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'N. Jović',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'Ph. Zuger',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'D. Walthert',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'R. Mussak',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'SSt', jahre: { 2026: 0, 2027: 0, 2028: 0, 2029: 0, 2030: 0, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'Ph. Ziger',
+                team: 'EZR',
+                fachgebiete: [
+                    { name: 'Client', jahre: { 2026: 0, 2027: 0, 2028: 0, 2029: 0, 2030: 0, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'O. Nussbaumer',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'N. Thoma',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'S. Burkhart',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'D. Fröhlich',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 0.5, 2027: 0.5, 2028: 0.5, 2029: 0.5, 2030: 0.5, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'I. Lüchinger',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 0.6, 2027: 0.6, 2028: 0.6, 2029: 0.6, 2030: 0.6, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'N. Mettler',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'O. Straub',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'S. Candio',
+                team: 'SNV',
+                fachgebiete: [
+                    { name: 'Betrieb', jahre: { 2026: 0.6, 2027: 0.6, 2028: 0.6, 2029: 0.6, 2030: 0.6, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'S. Börge',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'PM', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'C. Gallusser',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'Planung', jahre: { 2026: 0.8, 2027: 0.8, 2028: 0.8, 2029: 0.8, 2030: 0.8, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'H. Leuzinger',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'Architektur', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'F. Scherrer',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'QA', jahre: { 2026: 0.6, 2027: 0.6, 2028: 0.6, 2029: 0.6, 2030: 0.6, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'M. Surber',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'PM', jahre: { 2026: 1, 2027: 1, 2028: 1, 2029: 1, 2030: 1, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'F. Toma',
+                team: 'ABP',
+                fachgebiete: [
+                    { name: 'Planung', jahre: { 2026: 0.4, 2027: 0.4, 2028: 0.4, 2029: 0.4, 2030: 0.4, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            },
+            {
+                name: 'R. Holenstein',
+                team: 'EZV',
+                fachgebiete: [
+                    { name: 'Host VA', jahre: { 2026: 0, 2027: 0, 2028: 0, 2029: 0, 2030: 0, 2031: 0, 2032: 0, 2033: 0, 2034: 0, 2035: 0, 2036: 0 } }
+                ]
+            }
+        ];
+
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_URL, { cache: 'no-store' });
+                if (!response.ok) throw new Error('Zentrale JSON nicht erreichbar');
+                const parsed = await response.json();
+                if (!Array.isArray(parsed) || !parsed.length || !parsed[0].fachgebiete) {
+                    throw new Error('demografie.json enthält keine gültigen Daten');
+                }
+                const lastModified = response.headers.get('Last-Modified');
+                dataLastUpdated = lastModified
+                    ? new Date(lastModified).toLocaleString('de-CH')
+                    : 'nicht verfügbar';
+                return parsed;
+            } catch (error) {
+                console.warn('Zentrale JSON konnte nicht geladen werden:', error);
+                dataLastUpdated = 'nicht geladen';
+                return [];
+            }
+        }
+
+        function normalizeEmployees(data) {
+            const fachgebietByName = {
+                'G. Sprenger': 'Bezug',
+                'J. Savanović': 'Bezug',
+                'A. Gygax': 'VA',
+                'M. Neumann': 'VA',
+                'Th. Bücking': 'VA',
+                'D. Blatt': 'VA',
+                'A. Götz': 'BA (SN/ZP)',
+                'P. Ammann': 'BA (SN/ZP)',
+                'R. Muntwÿler': 'Reg',
+                'M. Schiffmann': 'Reg',
+                'M. Meier': 'DEV Div.',
+                'G. Knudsen': 'Reg',
+                'U. Gubser': 'Reg',
+                'S. Spiller': 'SSt',
+                'M. Fricke': 'SSt',
+                'M. Reiff': 'BA (SN/ZP)',
+                'M. Vujačić': 'BA (SN/ZP)',
+                'N. Jović': 'BA (SN/ZP)',
+                'Ph. Zuger': 'BA (SN/ZP)',
+                'D. Walthert': 'BA (SN/ZP)',
+                'O. Nussbaumer': 'Bezug',
+                'N. Thoma': 'Bezug',
+                'S. Burkhart': 'Imposto',
+                'D. Fröhlich': 'DEV Div.',
+                'I. Lüchinger': 'Imposto',
+                'N. Mettler': 'Imposto',
+                'O. Straub': 'Client',
+                'S. Candio': 'BA (SN/ZP)',
+                'R. Holenstein': 'VI',
+                'S. Börge': 'ABP',
+                'C. Gallusser': 'ABP',
+                'H. Leuzinger': 'ABP',
+                'F. Scherrer': 'ABP',
+                'M. Surber': 'ABP',
+                'F. Toma': 'ABP',
+                'G. Meisterl': 'ABP'
+            };
+
+            return data.map(employee => {
+                employee.team = String(employee.team || '').trim();
+                const fachgebiet = fachgebietByName[employee.name];
+                if (!fachgebiet || !Array.isArray(employee.fachgebiete)) return employee;
+                employee.fachgebiete = employee.fachgebiete.slice(0, 1);
+                employee.fachgebiete[0].name = fachgebiet;
+                return employee;
+            });
+        }
+
+        function parseCsvNumber(value) {
+            const normalized = String(value || '').trim().replace(',', '.');
+            const number = Number(normalized);
+            return Number.isFinite(number) ? Math.max(0, Math.min(1, number)) : 0;
+        }
+
+        function parseCsvRows(text) {
+            const rows = [];
+            let row = [];
+            let value = '';
+            let quoted = false;
+
+            for (let index = 0; index < text.length; index++) {
+                const character = text[index];
+                const nextCharacter = text[index + 1];
+                if (character === '"' && quoted && nextCharacter === '"') {
+                    value += '"';
+                    index++;
+                } else if (character === '"') {
+                    quoted = !quoted;
+                } else if (character === ';' && !quoted) {
+                    row.push(value);
+                    value = '';
+                } else if ((character === '\n' || character === '\r') && !quoted) {
+                    if (character === '\r' && nextCharacter === '\n') index++;
+                    row.push(value);
+                    if (row.some(cell => cell.trim())) rows.push(row);
+                    row = [];
+                    value = '';
+                } else {
+                    value += character;
+                }
+            }
+
+            row.push(value);
+            if (row.some(cell => cell.trim())) rows.push(row);
+            return rows;
+        }
+
+        function parseDemografieCsv(text) {
+            const rows = parseCsvRows(text.replace(/^\uFEFF/, ''));
+            const imported = [];
+
+            rows.forEach(columns => {
+                const fachgebiet = (columns[0] || '').trim();
+                const team = (columns[1] || '').trim();
+                const name = (columns[2] || '').trim();
+                if (!fachgebiet || !team || !name || fachgebiet === 'Fachgebiet' || fachgebiet.startsWith('Total')) return;
+
+                const jahre = {};
+                YEARS.forEach((year, index) => {
+                    jahre[year] = parseCsvNumber(columns[index + 5]);
+                });
+
+                let employee = imported.find(item => item.name === name && item.team === team);
+                if (!employee) {
+                    employee = { name, team, fachgebiete: [] };
+                    imported.push(employee);
+                }
+                employee.fachgebiete.push({ name: fachgebiet, jahre });
+            });
+
+            if (!imported.length) throw new Error('Keine gültigen Mitarbeiterzeilen gefunden');
+            return imported;
+        }
+
+        function importCSVFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const imported = parseDemografieCsv(reader.result);
+                    employees = imported;
+                    saveData();
+                    updateFilterOptions();
+                    applyFilters();
+                    alert(`${employees.length} Mitarbeiter mit ${employees.reduce((count, employee) => count + employee.fachgebiete.length, 0)} Fachgebieten importiert.`);
+                } catch (error) {
+                    alert('Fehler beim CSV-Import: ' + error.message);
+                } finally {
+                    event.target.value = '';
+                }
+            };
+            reader.onerror = () => alert('Die CSV-Datei konnte nicht gelesen werden.');
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function updateJsonStatus() {
+            const status = document.getElementById('jsonStatus');
+            if (!status || !Array.isArray(employees)) return;
+
+            const fachgebiete = new Set();
+            employees.forEach(employee => {
+                if (Array.isArray(employee.fachgebiete)) {
+                    employee.fachgebiete.forEach(item => fachgebiete.add(item.name));
+                }
+            });
+            status.textContent = `Datenbasis: ${CENTRAL_JSON_FILE} · Letztes Update: ${dataLastUpdated}`;
+            status.title = dataLastUpdated === 'nicht geladen'
+                ? 'Die zentrale demografie.json konnte nicht geladen werden'
+                : 'Zentrale demografie.json wurde geladen';
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(employees));
+                updateJsonStatus();
+                console.log('Gespeichert. Mitarbeiter:', employees.length);
+            } catch (error) {
+                console.error('Fehler beim Speichern:', error);
+            }
+        }
+
+        function getAllFachgebiete() {
+            const fachgebiete = new Set();
+            employees.forEach(emp => {
+                if (emp.fachgebiete) {
+                    emp.fachgebiete.forEach(fg => {
+                        fachgebiete.add(fg.name);
+                    });
+                }
+            });
+            return Array.from(fachgebiete).sort();
+        }
+
+        function updateFilterOptions() {
+            const allFachgebiete = getAllFachgebiete();
+            const teamSelect = document.getElementById('filterTeam');
+            const fachgebietSelect = document.getElementById('filterFachgebiet');
+            const mitarbeiterSelect = document.getElementById('filterMitarbeiter');
+
+            const currentTeam = teamSelect.value;
+            const currentFachgebiet = fachgebietSelect.value;
+            const currentMA = mitarbeiterSelect.value;
+
+            const teams = new Set(['ABP', 'EZR', 'EZV', 'SNV', 'SVZ']);
+            employees.forEach(employee => {
+                if (employee.team) teams.add(employee.team);
+            });
+            teamSelect.innerHTML = '<option value="">Alle Teams</option>';
+            Array.from(teams).sort().forEach(team => {
+                const option = document.createElement('option');
+                option.value = team;
+                option.textContent = team;
+                teamSelect.appendChild(option);
+            });
+            const otherOption = document.createElement('option');
+            otherOption.value = '__OTHER__';
+            otherOption.textContent = 'Alle anderen';
+            teamSelect.appendChild(otherOption);
+            teamSelect.value = currentTeam;
+
+            fachgebietSelect.innerHTML = '<option value="">Alle Fachgebiete</option>';
+            allFachgebiete.forEach(fg => {
+                const option = document.createElement('option');
+                option.value = fg;
+                option.textContent = fg;
+                fachgebietSelect.appendChild(option);
+            });
+            fachgebietSelect.value = currentFachgebiet;
+
+            const sortedEmployees = employees
+                .map(emp => emp.name)
+                .sort();
+
+            mitarbeiterSelect.innerHTML = '<option value="">Alle MA</option>';
+            sortedEmployees.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                mitarbeiterSelect.appendChild(option);
+            });
+            mitarbeiterSelect.value = currentMA;
+        }
+
+        function getFilteredRows() {
+            const teamFilter = document.getElementById('filterTeam').value;
+            const fachgebietFilter = document.getElementById('filterFachgebiet').value;
+            const maFilter = document.getElementById('filterMitarbeiter').value;
+
+            const rows = [];
+
+            employees.forEach(emp => {
+                if (maFilter && emp.name !== maFilter) return;
+                if (teamFilter === '__OTHER__' && ['ABP', 'EZR', 'EZV', 'SNV', 'SVZ'].includes(emp.team)) return;
+                if (teamFilter && teamFilter !== '__OTHER__' && emp.team !== teamFilter) return;
+
+                if (fachgebietFilter) {
+                    const hasFachgebiet = emp.fachgebiete && emp.fachgebiete.some(fg => fg.name === fachgebietFilter);
+                    if (!hasFachgebiet) return;
+                    
+                    emp.fachgebiete.forEach(fg => {
+                        if (fg.name === fachgebietFilter) {
+                            rows.push({ type: 'detail', employee: emp, fachgebiet: fg });
+                        }
+                    });
+                } else {
+                    rows.push({ type: 'parent', employee: emp });
+                    if (emp.fachgebiete) {
+                        emp.fachgebiete.forEach(fg => {
+                            rows.push({ type: 'detail', employee: emp, fachgebiet: fg });
+                        });
+                    }
+                }
+            });
+
+            return rows;
+        }
+
+        function applyFilters() {
+            filteredRows = getFilteredRows();
+            console.log('🔍 applyFilters - Gefilterte Zeilen:', filteredRows.length, 'von', employees.length, 'MA');
+            renderTable();
+            updateSummary();
+        }
+
+        function getPensum(employee, fachgebiet, year) {
+            if (fachgebiet && fachgebiet.jahre) {
+                return fachgebiet.jahre[year] || 0;
+            }
+            return 0;
+        }
+
+        function setPensum(employee, fachgebiet, year, value) {
+            const numValue = Math.max(0, Math.min(1, parseFloat(value) || 0));
+            if (fachgebiet.jahre) {
+                fachgebiet.jahre[year] = numValue;
+                saveData();
+                renderTable();
+                updateSummary();
+            }
+        }
+
+        function addFachgebiet() {
+            if (!Array.isArray(employees)) {
+                alert('Die Daten werden noch geladen. Bitte kurz warten und erneut versuchen.');
+                return;
+            }
+
+            const employeeSelect = document.getElementById('filterMitarbeiter');
+            const selectedName = employeeSelect.value;
+            const employeeName = selectedName || prompt('Name des Mitarbeiters:');
+            if (!employeeName) return;
+
+            const employee = employees.find(item => item.name === employeeName.trim());
+            if (!employee) {
+                alert('Mitarbeiter nicht gefunden. Bitte zuerst den Namen im Filter auswählen.');
+                return;
+            }
+
+            const fachgebietName = prompt(`Neues Fachgebiet für ${employee.name}:`);
+            if (!fachgebietName || !fachgebietName.trim()) return;
+            const name = fachgebietName.trim();
+
+            if (!Array.isArray(employee.fachgebiete)) employee.fachgebiete = [];
+            if (employee.fachgebiete.some(item => item.name === name)) {
+                alert('Dieses Fachgebiet ist beim Mitarbeiter bereits vorhanden.');
+                return;
+            }
+
+            const jahre = {};
+            YEARS.forEach(year => { jahre[year] = 0; });
+            employee.fachgebiete.push({ name, jahre });
+            saveData();
+            updateFilterOptions();
+            document.getElementById('filterMitarbeiter').value = employee.name;
+            applyFilters();
+        }
+
+        function deleteFachgebiet(employee, fachgebiet) {
+            if (!confirm(`Fachgebiet "${fachgebiet.name}" bei ${employee.name} löschen?`)) return;
+
+            employee.fachgebiete = employee.fachgebiete.filter(item => item !== fachgebiet);
+            saveData();
+            updateFilterOptions();
+            applyFilters();
+        }
+
+        function getYearTotal(employee, year) {
+            let total = 0;
+            if (employee.fachgebiete) {
+                employee.fachgebiete.forEach(fg => {
+                    total += getPensum(employee, fg, year);
+                });
+            }
+            return total;
+        }
+
+        function getSelectedTotal(year) {
+            let total = 0;
+            const teamFilter = document.getElementById('filterTeam').value;
+            const fachgebietFilter = document.getElementById('filterFachgebiet').value;
+            const maFilter = document.getElementById('filterMitarbeiter').value;
+
+            employees.forEach(employee => {
+                if (teamFilter === '__OTHER__' && ['ABP', 'EZR', 'EZV', 'SNV', 'SVZ'].includes(employee.team)) return;
+                if (teamFilter && teamFilter !== '__OTHER__' && employee.team !== teamFilter) return;
+                if (maFilter && employee.name !== maFilter) return;
+
+                employee.fachgebiete.forEach(fachgebiet => {
+                    if (!fachgebietFilter || fachgebiet.name === fachgebietFilter) {
+                        total += getPensum(employee, fachgebiet, year);
+                    }
+                });
+            });
+            return total.toFixed(2);
+        }
+
+        function updateSummary() {
+            const summaryRow = document.getElementById('summaryRow');
+            summaryRow.innerHTML = '';
+
+            const labelCell = document.createElement('div');
+            labelCell.className = 'summary-label';
+            labelCell.textContent = '📊 Gesamt-Pensum pro Jahr';
+            summaryRow.appendChild(labelCell);
+
+            const teamCell = document.createElement('div');
+            teamCell.className = 'summary-cell';
+            summaryRow.appendChild(teamCell);
+
+            const fachgebietCell = document.createElement('div');
+            fachgebietCell.className = 'summary-cell';
+            summaryRow.appendChild(fachgebietCell);
+
+            YEARS.forEach(year => {
+                const cell = document.createElement('div');
+                cell.className = 'summary-cell';
+                cell.textContent = getSelectedTotal(year);
+                let phaseClass = '';
+                if (year >= 2026 && year <= 2030) {
+                    phaseClass = 'year-cell-2026-2030';
+                } else if (year >= 2031 && year <= 2033) {
+                    phaseClass = 'year-cell-2031-2033';
+                } else {
+                    phaseClass = 'year-cell-2034-2036';
+                }
+                cell.className += ' ' + phaseClass;
+                summaryRow.appendChild(cell);
+            });
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const noResults = document.getElementById('noResults');
+            tbody.innerHTML = '';
+
+            if (filteredRows.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            noResults.style.display = 'none';
+
+            filteredRows.forEach(row => {
+                const tr = document.createElement('tr');
+
+                if (row.type === 'parent') {
+                    tr.className = 'parent-row';
+                    
+                    const labelCell = document.createElement('td');
+                    labelCell.className = 'label-col';
+                    
+                    const rowLabel = document.createElement('div');
+                    rowLabel.className = 'row-label';
+                    
+                    const nameDisplay = document.createElement('span');
+                    nameDisplay.className = 'name-display';
+                    nameDisplay.textContent = row.employee.name;
+                    nameDisplay.onclick = (e) => startEditName(row.employee, e);
+                    rowLabel.appendChild(nameDisplay);
+                    
+                    labelCell.appendChild(rowLabel);
+                    tr.appendChild(labelCell);
+
+                    const teamCell = document.createElement('td');
+                    teamCell.className = 'team-col';
+                    const teamBadge = document.createElement('span');
+                    teamBadge.className = `team-badge team-${row.employee.team.toLowerCase()}`;
+                    teamBadge.textContent = row.employee.team;
+                    teamCell.appendChild(teamBadge);
+                    tr.appendChild(teamCell);
+
+                    const fgCell = document.createElement('td');
+                    fgCell.className = 'fachgebiet-col';
+                    tr.appendChild(fgCell);
+
+                    YEARS.forEach(year => {
+                        const td = document.createElement('td');
+                        const phaseClass = getPhaseClass(year);
+                        td.className = phaseClass;
+                        td.textContent = getYearTotal(row.employee, year).toFixed(2);
+                        tr.appendChild(td);
+                    });
+                } else {
+                    tr.className = 'child-row';
+                    
+                    const labelCell = document.createElement('td');
+                    labelCell.className = 'label-col';
+                    if (document.getElementById('filterFachgebiet').value) {
+                        const nameDisplay = document.createElement('span');
+                        nameDisplay.className = 'name-display';
+                        nameDisplay.textContent = row.employee.name;
+                        nameDisplay.onclick = (e) => startEditName(row.employee, e);
+                        labelCell.appendChild(nameDisplay);
+                    }
+                    const indent = document.createElement('span');
+                    indent.className = 'indent-indicator';
+                    indent.textContent = '└→ ';
+                    labelCell.appendChild(indent);
+                    tr.appendChild(labelCell);
+
+                    const teamCell = document.createElement('td');
+                    teamCell.className = 'team-col';
+                    tr.appendChild(teamCell);
+
+                    const fgCell = document.createElement('td');
+                    fgCell.className = 'fachgebiet-col';
+                    const fachgebietContent = document.createElement('div');
+                    fachgebietContent.className = 'fachgebiet-cell-content';
+                    const fachgebietName = document.createElement('span');
+                    fachgebietName.textContent = row.fachgebiet.name;
+                    fachgebietName.style.fontWeight = '500';
+                    fachgebietContent.appendChild(fachgebietName);
+                    const deleteButton = document.createElement('button');
+                    deleteButton.type = 'button';
+                    deleteButton.className = 'delete-fachgebiet';
+                    deleteButton.textContent = '🗑';
+                    deleteButton.title = 'Fachgebiet löschen';
+                    deleteButton.setAttribute('aria-label', `Fachgebiet ${row.fachgebiet.name} löschen`);
+                    deleteButton.onclick = () => deleteFachgebiet(row.employee, row.fachgebiet);
+                    fachgebietContent.appendChild(deleteButton);
+                    fgCell.appendChild(fachgebietContent);
+                    tr.appendChild(fgCell);
+
+                    YEARS.forEach(year => {
+                        const td = document.createElement('td');
+                        const phaseClass = getPhaseClass(year);
+                        td.className = phaseClass;
+                        
+                        const value = getPensum(row.employee, row.fachgebiet, year);
+                        const input = document.createElement('input');
+                        input.type = 'number';
+                        input.min = '0';
+                        input.max = '1';
+                        input.step = '0.1';
+                        input.value = value;
+                        input.className = 'year-input';
+                        input.onchange = (e) => setPensum(row.employee, row.fachgebiet, year, e.target.value);
+                        td.appendChild(input);
+                        tr.appendChild(td);
+                    });
+                }
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function getPhaseClass(year) {
+            if (year >= 2026 && year <= 2030) {
+                return 'year-cell-2026-2030';
+            } else if (year >= 2031 && year <= 2033) {
+                return 'year-cell-2031-2033';
+            } else {
+                return 'year-cell-2034-2036';
+            }
+        }
+
+        function startEditName(employee, event) {
+            const nameDisplay = event.target;
+            const labelCell = nameDisplay.closest('td');
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'name-input';
+            input.value = employee.name;
+
+            function finishEdit(save) {
+                if (save && input.value.trim()) {
+                    const oldName = employee.name;
+                    employee.name = input.value.trim();
+                    saveData();
+                }
+                renderTable();
+                updateFilterOptions();
+                applyFilters();
+            }
+
+            input.onblur = () => finishEdit(true);
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    finishEdit(true);
+                    input.blur();
+                } else if (e.key === 'Escape') {
+                    finishEdit(false);
+                    input.blur();
+                }
+            };
+
+            const rowLabel = nameDisplay.closest('.row-label');
+            rowLabel.replaceChild(input, nameDisplay);
+            input.focus();
+            input.select();
+        }
+
+        function escapeCsvValue(value) {
+            const text = String(value ?? '');
+            return /[;"\r\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+        }
+
+        function exportCSV() {
+            if (!Array.isArray(employees) || !employees.length) {
+                alert('Keine Daten zum Exportieren vorhanden.');
+                return;
+            }
+
+            const rows = [['Fachgebiet', 'Team', 'Name', 'Typ', 'Kommentar', ...YEARS]];
+            employees.forEach(employee => {
+                (employee.fachgebiete || []).forEach(fachgebiet => {
+                    rows.push([
+                        fachgebiet.name,
+                        employee.team,
+                        employee.name,
+                        '',
+                        '',
+                        ...YEARS.map(year => String(getPensum(employee, fachgebiet, year)).replace('.', ','))
+                    ]);
+                });
+            });
+
+            const csv = '\uFEFF' + rows.map(row => row.map(escapeCsvValue).join(';')).join('\r\n') + '\r\n';
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'demografie_teamleiter.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            alert('demografie_teamleiter.csv wurde exportiert.');
+        }
+
+        function showImportModal() {
+            document.getElementById('importModal').classList.add('active');
+            document.getElementById('importTextarea').value = '';
+            document.getElementById('jsonFileInput').value = '';
+            document.getElementById('jsonFileName').textContent = 'Keine Datei ausgewählt';
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('active');
+        }
+
+        function loadJSONFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('importTextarea').value = reader.result;
+                document.getElementById('jsonFileName').textContent = file.name;
+            };
+            reader.onerror = () => {
+                document.getElementById('jsonFileName').textContent = 'Datei konnte nicht gelesen werden';
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function importJSON() {
+            try {
+                const json = document.getElementById('importTextarea').value;
+                const imported = JSON.parse(json);
+                if (!Array.isArray(imported)) {
+                    throw new Error('JSON muss ein Array sein');
+                }
+                employees = imported.map(employee => ({
+                    ...employee,
+                    team: String(employee.team || '').trim()
+                }));
+                const selectedFile = document.getElementById('jsonFileName')?.textContent;
+                const importedFile = selectedFile && selectedFile !== 'Keine Datei ausgewählt'
+                    ? selectedFile
+                    : 'manuell eingefügt';
+                localStorage.setItem(IMPORT_META_KEY, JSON.stringify({ importedFile }));
+                saveData();
+                updateFilterOptions();
+                applyFilters();
+                closeImportModal();
+                console.log('Importiert. Mitarbeiter:', employees.length);
+            } catch (e) {
+                alert('Fehler beim Importieren: ' + e.message);
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('Alle Daten wirklich löschen?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                employees = JSON.parse(JSON.stringify(DEFAULT_EMPLOYEES));
+                saveData();
+                updateFilterOptions();
+                applyFilters();
+                console.log('Gelöscht');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize global variables
+            employees = await loadData();
+            filteredRows = [];
+            
+            console.log('Geladen. Mitarbeiter:', employees.length);
+            updateFilterOptions();
+            
+            // Filter Event Listener
+            document.getElementById('filterTeam').addEventListener('change', applyFilters);
+            document.getElementById('filterFachgebiet').addEventListener('change', applyFilters);
+            document.getElementById('filterMitarbeiter').addEventListener('change', applyFilters);
+            
+            applyFilters();
+        });
+
+        document.getElementById('importModal').addEventListener('click', (e) => {
+            if (e.target.id === 'importModal') {
+                closeImportModal();
+            }
+        });
+    </script>
+
+</body>
+</html>
