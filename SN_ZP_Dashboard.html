@@ -153,14 +153,17 @@
     }).join('');
     document.getElementById('demography').innerHTML = `<div class="summary">${dashboardSummary}</div><div class="panel"><div class="panel-head"><div><h2>Demografie nach Teams</h2><p>Team-Pensen aus dem aktuellen JSON-Datenstand</p></div><a class="tag" href="sn_zp_demografie_planung.html">Zur Demografie-Planung</a></div><div class="table-wrap"><table><thead><tr><th>Team</th>${dashboardYears.map(year => `<th>FTE ${year}</th>`).join('')}<th>Mitarbeitende</th></tr></thead><tbody>${dashboardRows}<tr class="total"><td>Total</td>${dashboardYears.map(year => `<td>${dashboardFormatFte(dashboardTotal(year))}</td>`).join('')}<td>${dashboardDemographyData.length} MA</td></tr></tbody></table></div></div>`;
     async function loadDashboardJsonFallback() {
-      if (dashboardDemographyData.length) return;
       try {
         const response = await fetch('demografie.json', { cache: 'no-store' });
         if (!response.ok) throw new Error('JSON nicht erreichbar');
         const data = await response.json();
         if (Array.isArray(data) && data.length) {
-          localStorage.setItem('demografie_planung_data_v7', JSON.stringify(data));
-          window.location.reload();
+          const serialized = JSON.stringify(data);
+          const stored = localStorage.getItem('demografie_planung_data_v7');
+          if (stored !== serialized) {
+            localStorage.setItem('demografie_planung_data_v7', serialized);
+            window.location.reload();
+          }
           return;
         }
       } catch (error) {
