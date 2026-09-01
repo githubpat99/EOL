@@ -532,7 +532,7 @@
         <div class="toolbar">
             <button class="btn btn-primary" onclick="exportCSV()">📥 CSV exportieren</button>
             <a class="btn btn-secondary" href="SN_ZP_Dashboard.html#demography">↩️ Back to Dashboard</a>
-            <div id="jsonStatus" class="json-status">Datenbasis: demografie.json · Letztes Update: wird geladen ...</div>
+            <div id="jsonStatus" class="json-status">Datenbasis: demografie_powerapps.json · Letztes Update: wird geladen ...</div>
         </div>
 
         <div class="filter-section">
@@ -622,10 +622,11 @@
     <script>
         const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
         const STORAGE_KEY = 'demografie_planung_data_v7';
-        const CENTRAL_JSON_FILE = 'demografie.json';
-        const DATA_URL = window.location.protocol === 'file:'
-            ? 'http://127.0.0.1:8000/demografie.json'
-            : CENTRAL_JSON_FILE;
+        const CENTRAL_JSON_FILE = 'demografie_powerapps.json';
+        const LEGACY_JSON_FILE = 'demografie.json';
+        const DATA_URLS = window.location.protocol === 'file:'
+            ? ['http://127.0.0.1:8000/demografie_powerapps.json', 'http://127.0.0.1:8000/demografie.json']
+            : [CENTRAL_JSON_FILE, LEGACY_JSON_FILE];
         let employees;
         let filteredRows;
         let dataLastUpdated = 'wird geladen ...';
@@ -901,24 +902,50 @@
             }
         ];
 
-        async function loadData() {
-            try {
-                const response = await fetch(DATA_URL, { cache: 'no-store' });
-                if (!response.ok) throw new Error('Zentrale JSON nicht erreichbar');
-                const parsed = await response.json();
-                if (!Array.isArray(parsed) || !parsed.length || !parsed[0].fachgebiete) {
-                    throw new Error('demografie.json enthält keine gültigen Daten');
+        function normalizeDemografieData(data) {
+            if (!Array.isArray(data) || !data.length) return [];
+            if (Array.isArray(data[0].fachgebiete)) return data;
+
+            const employeesByKey = new Map();
+            data.forEach(row => {
+                const team = row.Team;
+                const name = row.Mitarbeiter;
+                const fachgebietName = row.Fachgebiet;
+                const year = Number(row.Planjahr);
+                if (!team || !name || !fachgebietName || !YEARS.includes(year)) return;
+
+                const employeeKey = `${team}|${name}`;
+                if (!employeesByKey.has(employeeKey)) employeesByKey.set(employeeKey, { name, team, fachgebiete: [] });
+                const employee = employeesByKey.get(employeeKey);
+                let fachgebiet = employee.fachgebiete.find(item => item.name === fachgebietName);
+                if (!fachgebiet) {
+                    fachgebiet = { name: fachgebietName, jahre: {} };
+                    employee.fachgebiete.push(fachgebiet);
                 }
-                const lastModified = response.headers.get('Last-Modified');
-                dataLastUpdated = lastModified
-                    ? new Date(lastModified).toLocaleString('de-CH')
-                    : 'nicht verfügbar';
-                return parsed;
-            } catch (error) {
-                console.warn('Zentrale JSON konnte nicht geladen werden:', error);
-                dataLastUpdated = 'nicht geladen';
-                return [];
+                fachgebiet.jahre[year] = Number(row.FTE) || 0;
+            });
+
+            return Array.from(employeesByKey.values());
+        }
+
+        async function loadData() {
+            for (const dataUrl of DATA_URLS) {
+                try {
+                    const response = await fetch(dataUrl, { cache: 'no-store' });
+                    if (!response.ok) throw new Error('Zentrale JSON nicht erreichbar');
+                    const parsed = normalizeDemografieData(await response.json());
+                    if (!parsed.length) throw new Error(`${dataUrl} enthält keine gültigen Daten`);
+                    const lastModified = response.headers.get('Last-Modified');
+                    dataLastUpdated = lastModified
+                        ? new Date(lastModified).toLocaleString('de-CH')
+                        : 'nicht verfügbar';
+                    return parsed;
+                } catch (error) {
+                    console.warn(`${dataUrl} konnte nicht geladen werden:`, error);
+                }
             }
+            dataLastUpdated = 'nicht geladen';
+            return [];
         }
 
         function normalizeEmployees(data) {
