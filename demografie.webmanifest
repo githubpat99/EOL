@@ -1,0 +1,26 @@
+{
+  "name": "Demografie-Planung 2026-2036",
+  "short_name": "Demografie",
+  "description": "Read-only Übersicht der Demografie- und Pensumsplanung.",
+  "lang": "de-CH",
+  "start_url": "./sn_zp_demografie_planung.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f4f0e7",
+  "theme_color": "#087c74",
+  "icons": [
+    {
+      "src": "./icons/demografie-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/demografie-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

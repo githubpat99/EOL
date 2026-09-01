@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#087c74">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Demografie">
     <title>Demografie-Planung 2026-2036</title>
+    <link rel="manifest" href="demografie.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/demografie-192.png">
+    <link rel="apple-touch-icon" href="icons/demografie-180.png">
     <style>
         * {
             margin: 0;
@@ -21,6 +29,7 @@
             --team-col-width: 36px;
             --fachgebiet-col-width: 16px;
             --year-col-width: 64px;
+            --summary-row-height: 34px;
         }
 
         .container {
@@ -214,6 +223,9 @@
         .summary-row {
             background: #e8eaf6;
             display: flex;
+            position: sticky;
+            top: 0;
+            z-index: 40;
             padding: 0;
             border-bottom: 2px solid #667eea;
             font-weight: 600;
@@ -284,14 +296,15 @@
             width: calc(var(--name-col-width) + var(--team-col-width) + var(--fachgebiet-col-width) + 11 * var(--year-col-width));
             min-width: calc(var(--name-col-width) + var(--team-col-width) + var(--fachgebiet-col-width) + 11 * var(--year-col-width));
             table-layout: fixed;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             background: white;
         }
 
         .data-table thead {
             background: #f0f2f5;
             position: sticky;
-            top: 0;
+            top: var(--summary-row-height);
             z-index: 30;
         }
 
@@ -1840,5 +1853,12 @@
         });
     </script>
 
+    <script>
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./demografie-sw.js');
+            });
+        }
+    </script>
 </body>
 </html>
