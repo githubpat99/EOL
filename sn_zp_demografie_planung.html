@@ -736,12 +736,14 @@
             }
 
             .header {
-                padding: 12px 14px;
+                padding: 8px 10px;
                 position: relative;
+                gap: 10px;
             }
 
             .header h1 {
-                font-size: 20px;
+                font-size: 17px;
+                line-height: 1.15;
                 margin-bottom: 0;
             }
 
@@ -750,9 +752,9 @@
             }
 
             .icon-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 18px;
+                width: 28px;
+                height: 28px;
+                font-size: 16px;
             }
 
             .info-popover {
@@ -778,10 +780,23 @@
 
             .toolbar,
             .filter-section {
-                padding: 8px 10px;
+                padding: 6px 10px;
+            }
+
+            .filter-section {
+                gap: 6px 8px;
+            }
+
+            .filter-group {
+                gap: 2px;
+            }
+
+            .filter-group label {
+                font-size: 10px;
             }
 
             .filter-group select {
+                padding: 5px 8px;
                 min-width: 112px;
                 max-width: 150px;
             }
@@ -808,6 +823,13 @@
             .data-table td {
                 padding: 4px 5px;
                 font-size: 11px;
+            }
+
+            .data-table thead tr:first-child th,
+            .data-table thead tr:nth-child(2) th {
+                height: 32px;
+                padding-top: 4px;
+                padding-bottom: 4px;
             }
 
             .data-table tbody tr.parent-row td {
