@@ -14,21 +14,21 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            height: 100vh;
             padding: 20px;
-            --sticky-toolbar-height: 64px;
-            --sticky-filter-height: 84px;
-            --sticky-summary-height: 58px;
-            --sticky-header-row-height: 42px;
+            overflow: hidden;
         }
 
         .container {
             max-width: 2000px;
+            height: calc(100vh - 40px);
             margin: 0 auto;
             background: white;
             border-radius: 8px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
@@ -56,9 +56,7 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 40;
+            flex: 0 0 auto;
         }
 
         .btn {
@@ -120,9 +118,7 @@
             gap: 15px;
             flex-wrap: wrap;
             align-items: center;
-            position: sticky;
-            top: var(--sticky-toolbar-height);
-            z-index: 39;
+            flex: 0 0 auto;
         }
 
         .filter-group {
@@ -165,9 +161,7 @@
             overflow-x: auto;
             align-items: center;
             min-width: 1260px;
-            position: sticky;
-            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height));
-            z-index: 38;
+            flex: 0 0 auto;
         }
 
         .summary-cell {
@@ -200,8 +194,10 @@
         }
 
         .table-wrapper {
-            overflow-x: auto;
-            padding: 20px;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: auto;
+            padding: 0 20px 20px;
         }
 
         .data-table {
@@ -215,7 +211,7 @@
         .data-table thead {
             background: #f0f2f5;
             position: sticky;
-            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height));
+            top: 0;
             z-index: 30;
         }
 
@@ -639,7 +635,12 @@
         const CENTRAL_JSON_FILE = 'demografie_powerapps.json';
         const LEGACY_JSON_FILE = 'demografie.json';
         const DATA_URLS = window.location.protocol === 'file:'
-            ? ['http://127.0.0.1:8000/demografie_powerapps.json', 'http://127.0.0.1:8000/demografie.json']
+            ? [
+                'http://127.0.0.1:8000/demografie_powerapps.json',
+                'https://githubpat99.github.io/EOL/demografie_powerapps.json',
+                'http://127.0.0.1:8000/demografie.json',
+                'https://githubpat99.github.io/EOL/demografie.json'
+            ]
             : [CENTRAL_JSON_FILE, LEGACY_JSON_FILE];
         let employees;
         let filteredRows;
