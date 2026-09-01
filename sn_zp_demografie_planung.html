@@ -634,6 +634,7 @@
         const STORAGE_KEY = 'demografie_planung_data_v7';
         const CENTRAL_JSON_FILE = 'demografie_powerapps.json';
         const LEGACY_JSON_FILE = 'demografie.json';
+        const GITHUB_COMMITS_API_URL = 'https://api.github.com/repos/githubpat99/EOL/commits';
         const DATA_URLS = window.location.protocol === 'file:'
             ? [
                 'http://127.0.0.1:8000/demografie_powerapps.json',
@@ -645,6 +646,7 @@
         let employees;
         let filteredRows;
         let dataLastUpdated = 'wird geladen ...';
+        let dataSourceFile = CENTRAL_JSON_FILE;
 
         const DEFAULT_EMPLOYEES = [
             {
@@ -943,6 +945,30 @@
             return Array.from(employeesByKey.values());
         }
 
+        function getJsonFileName(dataUrl) {
+            return dataUrl.includes(LEGACY_JSON_FILE) ? LEGACY_JSON_FILE : CENTRAL_JSON_FILE;
+        }
+
+        async function getJsonVersionDate(dataUrl, response) {
+            const fileName = getJsonFileName(dataUrl);
+            const shouldUseGithubApi = dataUrl.includes('githubpat99.github.io') || !dataUrl.startsWith('http://127.0.0.1');
+            if (shouldUseGithubApi) {
+                try {
+                    const commitsResponse = await fetch(`${GITHUB_COMMITS_API_URL}?path=${encodeURIComponent(fileName)}&sha=main&per_page=1`, { cache: 'no-store' });
+                    if (commitsResponse.ok) {
+                        const commits = await commitsResponse.json();
+                        const date = commits?.[0]?.commit?.committer?.date || commits?.[0]?.commit?.author?.date;
+                        if (date) return new Date(date).toLocaleString('de-CH');
+                    }
+                } catch (error) {
+                    console.warn('GitHub-Commitdatum konnte nicht gelesen werden:', error);
+                }
+            }
+
+            const lastModified = response.headers.get('Last-Modified');
+            return lastModified ? new Date(lastModified).toLocaleString('de-CH') : 'nicht verfügbar';
+        }
+
         async function loadData() {
             for (const dataUrl of DATA_URLS) {
                 try {
@@ -950,10 +976,8 @@
                     if (!response.ok) throw new Error('Zentrale JSON nicht erreichbar');
                     const parsed = normalizeDemografieData(await response.json());
                     if (!parsed.length) throw new Error(`${dataUrl} enthält keine gültigen Daten`);
-                    const lastModified = response.headers.get('Last-Modified');
-                    dataLastUpdated = lastModified
-                        ? new Date(lastModified).toLocaleString('de-CH')
-                        : 'nicht verfügbar';
+                    dataSourceFile = getJsonFileName(dataUrl);
+                    dataLastUpdated = await getJsonVersionDate(dataUrl, response);
                     return parsed;
                 } catch (error) {
                     console.warn(`${dataUrl} konnte nicht geladen werden:`, error);
@@ -1112,10 +1136,10 @@
                     employee.fachgebiete.forEach(item => fachgebiete.add(item.name));
                 }
             });
-            status.textContent = `Datenbasis: ${CENTRAL_JSON_FILE} · Letztes Update: ${dataLastUpdated}`;
+            status.textContent = `Datenbasis: ${dataSourceFile} · Letztes Update: ${dataLastUpdated}`;
             status.title = dataLastUpdated === 'nicht geladen'
-                ? 'Die zentrale demografie.json konnte nicht geladen werden'
-                : 'Zentrale demografie.json wurde geladen';
+                ? 'Die zentrale JSON-Datei konnte nicht geladen werden'
+                : `${dataSourceFile} wurde geladen`;
         }
 
         function saveData() {
@@ -1624,6 +1648,7 @@
             // Initialize global variables
             employees = await loadData();
             filteredRows = [];
+            updateJsonStatus();
             
             console.log('Geladen. Mitarbeiter:', employees.length);
             updateFilterOptions();
