@@ -17,9 +17,9 @@
             height: 100vh;
             padding: 20px;
             overflow: hidden;
-            --name-col-width: 150px;
-            --team-col-width: 58px;
-            --fachgebiet-col-width: 104px;
+            --name-col-width: 112px;
+            --team-col-width: 36px;
+            --fachgebiet-col-width: 16px;
             --year-col-width: 64px;
         }
 
@@ -214,13 +214,13 @@
         .summary-row {
             background: #e8eaf6;
             display: flex;
-            padding: 12px 20px;
+            padding: 0;
             border-bottom: 2px solid #667eea;
             font-weight: 600;
             color: #667eea;
             gap: 10px;
-            overflow-x: auto;
             align-items: center;
+            width: calc(var(--name-col-width) + var(--team-col-width) + var(--fachgebiet-col-width) + 11 * var(--year-col-width));
             min-width: calc(var(--name-col-width) + var(--team-col-width) + var(--fachgebiet-col-width) + 11 * var(--year-col-width));
             flex: 0 0 auto;
         }
@@ -254,11 +254,30 @@
             min-width: 0;
         }
 
+        .summary-row > :nth-child(-n + 3) {
+            position: sticky;
+            z-index: 24;
+            background: #e8eaf6;
+        }
+
+        .summary-row > :nth-child(1) {
+            left: 0;
+        }
+
+        .summary-row > :nth-child(2) {
+            left: var(--name-col-width);
+        }
+
+        .summary-row > :nth-child(3) {
+            left: calc(var(--name-col-width) + var(--team-col-width));
+            box-shadow: 5px 0 8px -7px rgba(23, 35, 31, 0.7);
+        }
+
         .table-wrapper {
             flex: 1 1 auto;
             min-height: 0;
             overflow: auto;
-            padding: 0 20px 20px;
+            margin: 0 20px 20px;
         }
 
         .data-table {
@@ -306,13 +325,75 @@
 
         .data-table th.fachgebiet-col {
             width: var(--fachgebiet-col-width);
+            text-align: left;
+        }
+
+        .data-table :is(th, td).label-col,
+        .data-table :is(th, td).team-col,
+        .data-table :is(th, td).fachgebiet-col {
+            position: sticky;
+        }
+
+        .data-table :is(th, td).label-col {
+            left: 0;
+        }
+
+        .data-table :is(th, td).team-col {
+            left: var(--name-col-width);
+            padding-right: 2px;
+            padding-left: 2px;
+        }
+
+        .data-table :is(th, td).fachgebiet-col {
+            left: calc(var(--name-col-width) + var(--team-col-width));
+            padding-right: 0;
+            padding-left: 0;
+            text-align: left;
+            box-shadow: 5px 0 8px -7px rgba(23, 35, 31, 0.7);
+        }
+
+        .data-table thead :is(th.label-col, th.team-col, th.fachgebiet-col) {
+            z-index: 34;
+            background: #f0f2f5;
+        }
+
+        .data-table tbody :is(td.label-col, td.team-col, td.fachgebiet-col) {
+            z-index: 10;
+            background: white;
+        }
+
+        .data-table :is(th, td).fachgebiet-group-col {
+            position: sticky;
+            left: 0;
+            width: calc(var(--name-col-width) + var(--team-col-width) + var(--fachgebiet-col-width));
+            padding-left: 5px;
+            text-align: left;
+            box-shadow: 5px 0 8px -7px rgba(23, 35, 31, 0.7);
+        }
+
+        .data-table thead th.fachgebiet-group-col {
+            z-index: 34;
+            background: #f0f2f5;
+        }
+
+        .data-table tbody td.fachgebiet-group-col {
+            z-index: 10;
+            background: white;
         }
 
         .fachgebiet-cell-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 6px;
+            justify-content: flex-start;
+            gap: 3px;
+            min-width: 0;
+            white-space: nowrap;
+        }
+
+        .fachgebiet-arrow {
+            flex: 0 0 auto;
+            color: #8b9691;
+            font-weight: 700;
         }
 
         .delete-fachgebiet {
@@ -361,6 +442,10 @@
             padding-bottom: 6px;
         }
 
+        .data-table tbody tr.parent-row :is(td.label-col, td.team-col, td.fachgebiet-col) {
+            background: #fafafa;
+        }
+
         .data-table tbody tr.parent-row td[class*="year-cell"] {
             font-weight: 800;
         }
@@ -379,6 +464,16 @@
             padding-left: 8px;
         }
 
+        .data-table tbody tr.child-row td.fachgebiet-col {
+            padding-right: 4px;
+            padding-left: 2px;
+        }
+
+        .data-table tbody tr.child-row td.fachgebiet-group-col {
+            padding-right: 4px;
+            padding-left: 5px;
+        }
+
         .row-label {
             display: flex;
             align-items: center;
@@ -389,7 +484,7 @@
         .name-display {
             font-weight: 600;
             cursor: default;
-            padding: 3px 5px;
+            padding: 3px 0;
             border-radius: 4px;
             transition: background 0.2s;
         }
@@ -467,7 +562,7 @@
 
         .team-badge {
             display: inline-block;
-            padding: 4px 10px;
+            padding: 4px 5px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
@@ -574,13 +669,6 @@
             justify-content: flex-end;
         }
 
-        .indent-indicator {
-            display: inline-block;
-            width: 20px;
-            color: #aaa;
-            font-weight: bold;
-        }
-
         .no-results {
             text-align: center;
             padding: 40px 20px;
@@ -599,8 +687,12 @@
         .btn-danger { background: #c95945; }
         .btn-danger:hover { background: #aa4636; }
         .summary-row { background: #d9eee8; border-bottom-color: #087c74; color: #087c74; }
+        .summary-row > :nth-child(-n + 3) { background: #d9eee8; }
         .data-table thead { background: #f8f5ed; }
+        .data-table thead :is(th.label-col, th.team-col, th.fachgebiet-col) { background: #f8f5ed; }
+        .data-table thead th.fachgebiet-group-col { background: #f8f5ed; }
         .data-table tbody tr.parent-row { background: #fbf8f0; }
+        .data-table tbody tr.parent-row :is(td.label-col, td.team-col, td.fachgebiet-col) { background: #fbf8f0; }
         .name-display:hover { background: #d9eee8; }
         .filter-group select:focus, .year-input:focus { border-color: #087c74; }
         .phase-header-2026-2030 { background: #d9eee8; color: #087c74; }
@@ -620,9 +712,9 @@
         @media (max-width: 900px) {
             body {
                 padding: 8px;
-                --name-col-width: 122px;
-                --team-col-width: 46px;
-                --fachgebiet-col-width: 90px;
+                --name-col-width: 96px;
+                --team-col-width: 36px;
+                --fachgebiet-col-width: 16px;
                 --year-col-width: 52px;
             }
 
@@ -664,11 +756,12 @@
             }
 
             .summary-row {
-                padding: 8px 10px;
+                padding: 0;
             }
 
             .summary-label {
-                font-size: 12px;
+                font-size: 11px;
+                white-space: nowrap;
             }
 
             .summary-cell {
@@ -677,7 +770,7 @@
             }
 
             .table-wrapper {
-                padding: 0 10px 10px;
+                margin: 0 10px 10px;
             }
 
             .data-table th,
@@ -752,23 +845,20 @@
             </div>
         </div>
 
-        <div class="summary-row" id="summaryRow"></div>
-
         <div class="table-wrapper">
+            <div class="summary-row" id="summaryRow"></div>
             <table class="data-table">
                 <thead>
                     <tr>
                         <th class="label-col">Name</th>
                         <th class="team-col">Team</th>
-                        <th class="fachgebiet-col">Fachgebiet</th>
+                        <th class="fachgebiet-col"></th>
                         <th colspan="5" class="phase-header-2026-2030">Weiterentwicklung</th>
                         <th colspan="3" class="phase-header-2031-2033">Wartung</th>
                         <th colspan="3" class="phase-header-2034-2036">Read-Only</th>
                     </tr>
                     <tr>
-                        <th class="label-col"></th>
-                        <th class="team-col"></th>
-                        <th class="fachgebiet-col"></th>
+                        <th class="fachgebiet-group-col" colspan="3">→ Fachgebiet</th>
                         <th class="year-cell-2026-2030">2026</th>
                         <th class="year-cell-2026-2030">2027</th>
                         <th class="year-cell-2026-2030">2028</th>
@@ -1569,29 +1659,23 @@
                     });
                 } else {
                     tr.className = 'child-row';
-                    
-                    const labelCell = document.createElement('td');
-                    labelCell.className = 'label-col';
+
+                    const fgCell = document.createElement('td');
+                    fgCell.className = 'fachgebiet-group-col';
+                    fgCell.colSpan = 3;
+
+                    const fachgebietContent = document.createElement('div');
+                    fachgebietContent.className = 'fachgebiet-cell-content';
                     if (document.getElementById('filterFachgebiet').value) {
                         const nameDisplay = document.createElement('span');
                         nameDisplay.className = 'name-display';
                         nameDisplay.textContent = row.employee.name;
-                        labelCell.appendChild(nameDisplay);
+                        fachgebietContent.appendChild(nameDisplay);
                     }
-                    const indent = document.createElement('span');
-                    indent.className = 'indent-indicator';
-                    indent.textContent = '└→ ';
-                    labelCell.appendChild(indent);
-                    tr.appendChild(labelCell);
-
-                    const teamCell = document.createElement('td');
-                    teamCell.className = 'team-col';
-                    tr.appendChild(teamCell);
-
-                    const fgCell = document.createElement('td');
-                    fgCell.className = 'fachgebiet-col';
-                    const fachgebietContent = document.createElement('div');
-                    fachgebietContent.className = 'fachgebiet-cell-content';
+                    const fachgebietArrow = document.createElement('span');
+                    fachgebietArrow.className = 'fachgebiet-arrow';
+                    fachgebietArrow.textContent = '→';
+                    fachgebietContent.appendChild(fachgebietArrow);
                     const fachgebietName = document.createElement('span');
                     fachgebietName.textContent = row.fachgebiet.name;
                     fachgebietName.style.fontWeight = '500';
