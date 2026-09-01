@@ -16,6 +16,10 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            --sticky-toolbar-height: 64px;
+            --sticky-filter-height: 84px;
+            --sticky-summary-height: 58px;
+            --sticky-header-row-height: 42px;
         }
 
         .container {
@@ -52,6 +56,9 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 40;
         }
 
         .btn {
@@ -113,6 +120,9 @@
             gap: 15px;
             flex-wrap: wrap;
             align-items: center;
+            position: sticky;
+            top: var(--sticky-toolbar-height);
+            z-index: 39;
         }
 
         .filter-group {
@@ -155,6 +165,9 @@
             overflow-x: auto;
             align-items: center;
             min-width: 1260px;
+            position: sticky;
+            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height));
+            z-index: 38;
         }
 
         .summary-cell {
@@ -199,12 +212,7 @@
             background: white;
         }
 
-        .data-table thead {
-            background: #f0f2f5;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+        .data-table thead { background: #f0f2f5; }
 
         .data-table th {
             padding: 12px;
@@ -214,14 +222,19 @@
             font-size: 12px;
             vertical-align: middle;
             line-height: 1.2;
+            position: sticky;
+            z-index: 30;
+            background: #f0f2f5;
         }
 
         .data-table thead tr:first-child th {
             height: 42px;
+            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height));
         }
 
         .data-table thead tr:nth-child(2) th {
             height: 42px;
+            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height) + var(--sticky-header-row-height));
         }
 
         .data-table th.label-col {
@@ -1314,7 +1327,7 @@
 
             const labelCell = document.createElement('div');
             labelCell.className = 'summary-label';
-            labelCell.textContent = '📊 Gesamt-Pensum pro Jahr';
+            labelCell.textContent = '📊 Gesamt-Pensum';
             summaryRow.appendChild(labelCell);
 
             const teamCell = document.createElement('div');
