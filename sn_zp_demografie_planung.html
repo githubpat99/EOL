@@ -212,7 +212,12 @@
             background: white;
         }
 
-        .data-table thead { background: #f0f2f5; }
+        .data-table thead {
+            background: #f0f2f5;
+            position: sticky;
+            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height));
+            z-index: 30;
+        }
 
         .data-table th {
             padding: 12px;
@@ -222,19 +227,15 @@
             font-size: 12px;
             vertical-align: middle;
             line-height: 1.2;
-            position: sticky;
-            z-index: 30;
             background: #f0f2f5;
         }
 
         .data-table thead tr:first-child th {
             height: 42px;
-            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height));
         }
 
         .data-table thead tr:nth-child(2) th {
             height: 42px;
-            top: calc(var(--sticky-toolbar-height) + var(--sticky-filter-height) + var(--sticky-summary-height) + var(--sticky-header-row-height));
         }
 
         .data-table th.label-col {
