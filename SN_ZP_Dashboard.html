@@ -63,6 +63,7 @@
     .breakdown { display:grid; gap:6px; }
     .breakdown-item { display:block; }
     .currency-value { font-weight:800; color:var(--ink); white-space:nowrap; }
+    .cost-actual { display:block; margin-top:5px; color:var(--teal); font:11px 'DM Mono',monospace; font-weight:400; white-space:nowrap; }
     .risk { display:grid; grid-template-columns:105px 1fr 70px; gap:12px; align-items:center; margin:15px 0; font-size:12px; font-weight:700; }
     .bar { height:9px; background:#e6e1d6; }
     .bar i { display:block; height:100%; background:var(--coral); }
@@ -71,6 +72,12 @@
     footer { border-top:1px solid var(--line); padding-top:15px; color:var(--muted); display:flex; justify-content:space-between; gap:20px; font:10px 'DM Mono',monospace; }
     @media (max-width:850px) { .shell { padding:20px; } .intro,.grid { display:block; } .intro p { margin-top:18px; } .summary,#demography .summary { grid-template-columns:repeat(2,1fr); } .callout { margin-bottom:18px; } }
     @media (max-width:500px) { h1 { font-size:34px; } .summary { gap:8px; } .stat { padding:15px; } .value { font-size:25px; } footer { display:block; line-height:1.7; } }
+    /* Keep summary values inside their cards at every viewport width. */
+    .summary { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .stat { min-width:0; container-type:inline-size; }
+    .stat .value { font-size:clamp(18px,10cqw,30px); line-height:1.2; overflow-wrap:anywhere; }
+    .stat .currency-value { white-space:normal; }
+    @media (max-width:850px) { .summary,#demography .summary { grid-template-columns:repeat(2,minmax(0,1fr)); } }
   </style>
 </head>
 <body>
@@ -86,7 +93,7 @@
     </section>
 
     <section id="sn-finance" class="view hidden">
-      <div class="summary"><article class="stat"><div class="label">SN Gesamtertrag 2026</div><div class="value">CHF 14,81 Mio.</div><div class="delta">Kantone SG/TI + Gemeinden SG/TG</div></article><article class="stat"><div class="label">SN Vollkosten 2026</div><div class="value">CHF 7,54 Mio.</div><div class="delta">direkte Kosten, Personal und ILV</div></article><article class="stat"><div class="label">SN ILV 2026</div><div class="value">CHF 4,10 Mio.</div><div class="delta">Technologie, Security, Synergien</div></article><article class="stat warn"><div class="label">SN Ende Planung</div><div class="value">2035</div><div class="delta">Restbetrieb danach separat entscheiden</div></article></div>
+      <div class="summary"><article class="stat"><div class="label">SN Gesamtertrag 2026</div><div class="value">CHF 14,81 Mio.</div><div class="delta">Kantone SG/TI + Gemeinden SG/TG</div></article><article class="stat"><div class="label">Geplanter Aufwand 2026</div><div class="value">CHF 7,54 Mio.</div><div class="delta">Bisheriger Aufwand Jan.–Aug. · CHF 4,32 Mio.</div></article><article class="stat"><div class="label">SN ILV 2026</div><div class="value">CHF 4,10 Mio.</div><div class="delta">Technologie, Security, Synergien</div></article><article class="stat warn"><div class="label">SN Ende Planung</div><div class="value">2035</div><div class="delta">Restbetrieb danach separat entscheiden</div></article></div>
       <div class="panel"><div class="panel-head"><div><h2>SN: Ertrag und Aufwand</h2><p>Gesamtertrag, Vollkosten und das gestaffelte Ende der neuen Steuerperioden</p></div><span class="tag">SN · bis 2035</span></div><div class="table-wrap"><table><thead><tr><th>Perspektive</th><th>Wert 2026</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>SN Gesamtertrag</strong></td><td class="money">CHF 14’807’000</td><td>Kantone SG/TI CHF 12’534’000 + Gemeinden SG/TG CHF 2’273’000</td></tr><tr><td><strong>Vollkosten SN</strong></td><td class="money">CHF 7’535’000</td><td>direkte Kosten, Personalkosten und CHF 4’098’000 ILV</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">9’798 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr></tbody></table></div><h3>SN Kosten- und Ertrags-Lifecycle</h3><div class="table-wrap"><table><thead><tr><th>Jahr</th><th>Gesamtertrag</th><th>Vollkosten</th><th>Marge</th><th>Bemerkung</th></tr></thead><tbody><tr><td><strong>2026</strong></td><td>CHF 12’534’000</td><td>CHF 7’535’000</td><td class="money">CHF 4’999’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2027</strong></td><td>CHF 12’329’000</td><td>CHF 7’494’000</td><td class="money">CHF 4’835’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2028</strong></td><td>CHF 12’289’000</td><td>CHF 7’700’000</td><td class="money">CHF 4’589’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2029</strong></td><td>CHF 12’289’000</td><td>CHF 7’630’000</td><td class="money">CHF 4’659’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2030</strong></td><td>CHF 12’289’000</td><td>CHF 7’558’000</td><td class="money">CHF 4’731’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung; Abgang TG</td></tr><tr><td><strong>2031</strong></td><td>CHF 8’505’000</td><td>CHF 7’358’000</td><td class="money">CHF 1’147’000</td><td>Abgang TI; SG bleibt im Betrieb</td></tr><tr><td><strong>2032</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Betrieb bestehender Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2033</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Betrieb bestehender Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2034</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Bestehende Steuerperioden SG. Muss neu vereinbart werden.</td></tr><tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr></tbody></table></div><p class="note">Ertrag, Vollkosten und Marge bis 2031 aus der verbindlichen Jahresplanung, inklusive Gemeinden SG/TG. Ab 2032 sind Restbetrieb und Kosten nicht in der aktuellen Planung enthalten.</p></div>
       <div class="panel"><div class="panel-head"><div><h2>ZP: Ertrag und Aufwand</h2><p>Gesamtertrag, Vollkosten und Restbetrieb</p></div><span class="tag">ZP · bis 2035</span></div><div class="table-wrap"><table><thead><tr><th>Perspektive</th><th>Wert 2026</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>Kanton ZH</strong></td><td class="money">CHF 14’112’000</td><td>Wartung & Betrieb, Direktaufträge, Kundenprojekte und ITS</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb, DA und Kundenprojekte</td></tr><tr class="total"><td><strong>ZP Gesamtertrag</strong></td><td class="money">CHF 19’412’000</td><td>Kanton ZH CHF 14’112’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP</strong></td><td class="money">CHF 12’178’000</td><td>Direkte Kosten, Personal, ILV und ITS</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr></tbody></table></div><h3>ZP Kosten- und Ertrags-Lifecycle</h3><div class="table-wrap"><table><thead><tr><th>Jahr</th><th>Gesamtertrag</th><th>Vollkosten</th><th>Marge</th><th>Bemerkung</th></tr></thead><tbody><tr><td><strong>2026</strong></td><td>CHF 19’412’000</td><td>CHF 12’178’000</td><td class="money">CHF 7’234’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2027</strong></td><td>CHF 19’144’000</td><td>CHF 12’388’000</td><td class="money">CHF 6’756’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2028</strong></td><td>CHF 19’037’000</td><td>CHF 12’438’000</td><td class="money">CHF 6’599’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2029</strong></td><td>CHF 19’037’000</td><td>CHF 12’400’000</td><td class="money">CHF 6’637’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2030</strong></td><td>CHF 19’037’000</td><td>CHF 12’344’000</td><td class="money">CHF 6’693’000</td><td>Aktivbetrieb inklusive Wartung und Weiterentwicklung</td></tr><tr><td><strong>2031</strong></td><td>CHF 19’037’000</td><td>CHF 12’664’000</td><td class="money">CHF 6’373’000</td><td>Betrieb inklusive Wartung</td></tr><tr><td><strong>2032</strong></td><td>CHF 19’037’000</td><td>CHF 15’094’000</td><td class="money">CHF 3’943’000</td><td>Bestehende Steuerperioden. Muss neu vereinbart werden.</td></tr><tr><td><strong>2033</strong></td><td>CHF 19’037’000</td><td>CHF 15’194’000</td><td class="money">CHF 3’843’000</td><td>Bestehende Steuerperioden / Readonly. Muss neu vereinbart werden.</td></tr><tr><td><strong>2034</strong></td><td>CHF 19’037’000</td><td>CHF 15’266’000</td><td class="money">CHF 3’771’000</td><td>Bestehende Steuerperioden / Readonly. Muss neu vereinbart werden.</td></tr><tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr></tbody></table></div><p class="note">Ertrag, Vollkosten und EBITDA/Marge aus der verbindlichen Jahresplanung, inklusive KStA ZH und Gemeinden ZH.</p></div>
     </section>
@@ -106,12 +113,22 @@
     zpFinance.className = 'view hidden';
     const snFinancePanels = snFinance.querySelectorAll('.panel');
     const zpSummary = snFinance.querySelector('.summary').cloneNode(true);
-    zpSummary.innerHTML = `<article class="stat"><div class="label">ZP Gesamtertrag 2026</div><div class="value">CHF 19,41 Mio.</div><div class="delta">10,44 Mio STE · 8,97 Mio ITS</div></article><article class="stat"><div class="label">Kanton ZH</div><div class="value">CHF 14,11 Mio.</div><div class="delta">Wartung, DA, Projekte und ITS</div></article><article class="stat"><div class="label">Gemeinden ZH</div><div class="value">CHF 5,30 Mio.</div><div class="delta">Betrieb, DA und Kundenprojekte</div></article><article class="stat warn"><div class="label">ZP Betrieb ab 2033</div><div class="value">offen</div><div class="delta">Planung vorhanden; neu zu vereinbaren</div></article>`;
+    zpSummary.innerHTML = `<article class="stat"><div class="label">ZP Steuerertrag 2026</div><div class="value">CHF 10,44 Mio.</div><div class="delta">reine Steuersicht</div></article><article class="stat"><div class="label">Geplanter Aufwand STE 2026</div><div class="value">CHF 7,11 Mio.</div><div class="delta">Bisheriger Aufwand Jan.–Aug. · CHF 3,94 Mio.</div></article><article class="stat"><div class="label">Gemeinden ZH</div><div class="value">CHF 5,30 Mio.</div><div class="delta">Betrieb, DA und Kundenprojekte</div></article><article class="stat warn"><div class="label">ZP Betrieb ab 2033</div><div class="value">offen</div><div class="delta">Planung vorhanden; neu zu vereinbaren</div></article>`;
     zpFinance.append(zpSummary, snFinancePanels[1]);
     snFinance.after(zpFinance);
+    // Navigation früh initialisieren, damit spätere Datenfehler die Tabs nicht blockieren.
+    const tabs = document.querySelectorAll('.tab');
+    const views = document.querySelectorAll('.view');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(item => item.classList.toggle('active', item === tab));
+      views.forEach(view => view.classList.toggle('hidden', view.id !== tab.dataset.view));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }));
+    const initialTab = document.querySelector(`.tab[data-view="${window.location.hash.slice(1)}"]`);
+    if (initialTab) initialTab.click();
     zpFinance.querySelector('.panel-head .tag').textContent = 'ZP · bis 2035';
     const zpPerspectiveBody = zpFinance.querySelector('.panel table tbody');
-    zpPerspectiveBody.innerHTML = `<tr><td><strong>Kanton ZH</strong></td><td class="money">CHF 14’112’000</td><td>Wartung & Betrieb CHF 4’432’000, Direktaufträge CHF 210’000, Kundenprojekte CHF 502’000 und Ertrag ITS CHF 8’968’000</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb CHF 5’190’000, DA CHF 87’000 und Kundenprojekte CHF 23’000</td></tr><tr class="total"><td><strong>ZP Gesamtertrag</strong></td><td class="money">CHF 19’412’000</td><td>Kanton ZH CHF 14’112’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP</strong></td><td class="money">CHF 12’178’000</td><td>Direkte Kosten CHF 465’000, Personal CHF 3’762’000, ILV CHF 2’878’000 und ITS CHF 5’073’000</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr>`;
+    zpPerspectiveBody.innerHTML = `<tr><td><strong>Kanton ZH · Steuern</strong></td><td class="money">CHF 5’144’000</td><td>Wartung & Betrieb CHF 4’432’000, Direktaufträge CHF 210’000 und Kundenprojekte CHF 502’000</td></tr><tr><td><strong>Gemeinden ZH · Steuern</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb CHF 5’190’000, DA CHF 87’000 und Kundenprojekte CHF 23’000</td></tr><tr class="total"><td><strong>ZP Steuerertrag</strong></td><td class="money">CHF 10’444’000</td><td>Kanton ZH CHF 5’144’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP · Steuern</strong></td><td class="money">CHF 7’105’000</td><td>Direkte Kosten CHF 465’000, Personal CHF 3’762’000 und ILV CHF 2’878’000</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr>`;
     const zpLifecycle = zpFinance.querySelector('h3 + .table-wrap tbody');
     const zpYearRows = Array.from(zpLifecycle.rows);
     const zp2034 = zpYearRows.find(row => row.cells[0].textContent.trim() === '2034');
@@ -120,20 +137,24 @@
     zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Gesamtertrag KStA ZH';
     const annualRevenue = {
       'sn-finance': { 2026: ['14’807’000', '7’272’000'], 2027: ['14’628’000', '7’134’000'], 2028: ['14’588’000', '6’888’000'], 2029: ['14’588’000', '6’958’000'], 2030: ['12’588’000', '5’030’000'], 2031: ['8’804’000', '1’446’000'] },
-      'zp-finance': { 2026: ['19’412’000', '7’234’000'], 2027: ['19’144’000', '6’756’000'], 2028: ['19’037’000', '6’599’000'], 2029: ['19’037’000', '6’637’000'], 2030: ['19’037’000', '6’693’000'], 2031: ['19’037’000', '6’373’000'], 2032: ['19’037’000', '3’943’000'], 2033: ['19’037’000', '3’843’000'], 2034: ['19’037’000', '3’771’000'] }
+      'zp-finance': { 2026: ['10’444’000', '3’339’000'], 2027: ['10’176’000', '2’861’000'], 2028: ['10’069’000', '2’704’000'], 2029: ['10’069’000', '2’742’000'], 2030: ['10’069’000', '2’798’000'], 2031: ['10’069’000', '2’478’000'], 2032: ['10’069’000', '48’000'], 2033: ['10’069’000', '−52’000'], 2034: ['10’069’000', '−124’000'] }
     };
+    // Reine STE-Vollkosten: ZP-Gesamtvollkosten abzüglich ITS-Vertrag CHF 5’073’000 pro Planjahr.
+    const zpTaxCosts = { 2026: '7’105’000', 2027: '7’315’000', 2028: '7’365’000', 2029: '7’327’000', 2030: '7’271’000', 2031: '7’591’000', 2032: '10’021’000', 2033: '10’121’000', 2034: '10’193’000' };
     for (const [viewId, values] of Object.entries(annualRevenue)) {
       const lifecycleRows = document.querySelectorAll(`#${viewId} h3 + .table-wrap tbody tr`);
       lifecycleRows.forEach(row => {
         const year = row.cells[0].textContent.trim();
         if (!values[year]) return;
         row.cells[1].textContent = `CHF ${values[year][0]}`;
+        if (viewId === 'zp-finance') row.cells[2].textContent = `CHF ${zpTaxCosts[year]}`;
         row.cells[3].textContent = `CHF ${values[year][1]}`;
       });
     }
     document.querySelector('#sn-finance .note').textContent = 'Ertrag, Vollkosten und Marge bis 2031 aus der verbindlichen Jahresplanung, inklusive Gemeinden SG/TG. Ab 2032 sind Restbetrieb und Kosten nicht in der aktuellen Planung enthalten.';
-    zpLifecycle.closest('.panel').querySelector('.note').textContent = 'Ertrag, Vollkosten und EBITDA/Marge aus der verbindlichen Jahresplanung, inklusive KStA ZH und Gemeinden ZH. Ab 2032 ist die Planung kein Ersatz für eine neue Betriebsvereinbarung.';
-    zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Gesamtertrag inkl. Gemeinden';
+    zpLifecycle.closest('.panel').querySelector('.note').textContent = 'Ertrag, Vollkosten und Marge der reinen Steuersicht gemäss verbindlicher Jahresplanung. Ab 2032 ist die Planung kein Ersatz für eine neue Betriebsvereinbarung.';
+    zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Steuerertrag';
+    zpLifecycle.closest('table').querySelector('th:nth-child(3)').textContent = 'Vollkosten Steuern';
     function splitCurrencyBreakdowns(root) {
       root.querySelectorAll('td').forEach(cell => {
         let text = cell.textContent.trim();
@@ -161,7 +182,7 @@
         acceptNode(node) {
           if (!currencyPattern.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
           currencyPattern.lastIndex = 0;
-          if (node.parentElement.closest('.currency-value')) return NodeFilter.FILTER_REJECT;
+          if (node.parentElement.closest('.currency-value, .cost-actual')) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         }
       });
@@ -182,6 +203,68 @@
         node.replaceWith(fragment);
       });
     }
+    // Kostensicht 2026: gespeicherte Gesamtkosten inklusive gemeinsamer Kosten.
+    // SN: Kostensicht!D30:D33; ZP: Kostensicht!D22:D23.
+    // Mit Monatsübersicht Januar–August abgeglichen; keine Hochrechnung.
+    const customerCosts = [
+      { product: 'SN', customer: 'KStA SG', revenue: 8625000, planCost: 1697002, cost: 972486.10167792824 },
+      { product: 'SN', customer: 'Cantone Ticino', revenue: 3909000, planCost: 4362545, cost: 2500005.7810805086 },
+      { product: 'SN', customer: 'Gemeinden SN', revenue: 2273000, planCost: 1475453, cost: 843456.78226395836 + 2068.7349776254628 },
+      { product: 'ZP', customer: 'KStA ZH · Steuern', revenue: 5144000, planCost: 2183366, cost: 1210043.0077909403 },
+      { product: 'ITS', customer: 'KStA ZH · separater Vertrag ITS', revenue: 8968000, planCost: 5073000, cost: null },
+      { product: 'ZP', customer: 'Gemeinden ZH', revenue: 5300000, planCost: 4921634, cost: 2727618.2222090648 }
+    ];
+    const formatCustomerChf = value => `CHF ${new Intl.NumberFormat('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value)}`;
+    const formatCustomerCost = value => value === null ? '' : formatCustomerChf(value);
+    const knownCostTotal = items => items.reduce((sum, item) => sum + (item.cost ?? 0), 0);
+    const costPeriodNote = 'Aufwände: Januar bis August 2026 berücksichtigt, inklusive verteilter gemeinsamer Kosten gemäss Kostensicht. Erträge: Jahresplanung 2026; unterschiedliche Zeiträume, daher keine Marge aus diesen Werten.';
+    document.querySelector('#common .summary').innerHTML = `<article class="stat"><div class="label">Steuerertrag SN + ZP 2026</div><div class="value">CHF 25,25 Mio.</div><div class="delta delta-lines"><span>SN CHF 14,81 Mio.</span><span>ZP Steuern CHF 10,44 Mio.</span></div></article><article class="stat"><div class="label">ITS Vertrag 2026 · separat</div><div class="value">CHF 8,97 Mio.</div><div class="delta">Aufwand CHF 5,07 Mio. · nicht im Total</div></article><article class="stat"><div class="label">Planaufwand Steuern 2026</div><div class="value">CHF 14,64 Mio.</div><div class="delta">Bisher Jan.–Aug. · CHF 8,26 Mio.</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article>`;
+    const commonCustomerPanel = document.querySelector('#common > .panel');
+    commonCustomerPanel.querySelector('h2').textContent = 'Erträge und Aufwände nach Kunden';
+    commonCustomerPanel.querySelector('.panel-head p').textContent = 'Erträge: Jahresplanung 2026 · Kundenaufwände: bis August · ITS-Vollkosten: Jahresplanung';
+    commonCustomerPanel.querySelector('.tag').textContent = 'CHF 25,25 MIO. · STEUERN';
+    const commonCustomerTable = commonCustomerPanel.querySelector('table');
+    const commonCustomers = [
+      { ...customerCosts.find(item => item.customer === 'KStA ZH · Steuern'), share: '20,37 %', description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'KStA SG'), share: '34,16 %', description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Gemeinden ZH'), share: '20,99 %', description: 'Betrieb, DA und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Cantone Ticino'), share: '15,48 %', description: 'Wartung & Betrieb sowie Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Gemeinden SN'), share: '9,00 %', description: 'Betrieb Gemeinden SG & TG' }
+    ];
+    const commonRows = commonCustomers.map(item => {
+      const actual = item.cost === null ? '<span class="cost-actual">Separater Vertrag</span>' : `<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span>`;
+      return `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}${actual}</td><td>${item.share}</td><td>${item.description}</td></tr>`;
+    }).join('');
+    const itsContract = customerCosts.find(item => item.product === 'ITS');
+    const itsRow = `<tr><td><strong>${itsContract.customer}</strong></td><td class="money">${formatCustomerChf(itsContract.revenue)}</td><td class="money">${formatCustomerChf(itsContract.planCost)}<span class="cost-actual">Separater Vertrag · nicht im Total</span></td><td>separat</td><td>Separater Vertrag; nicht Teil der Steuersicht oder des Totals</td></tr>`;
+    commonCustomerTable.tBodies[0].innerHTML = `${commonRows}<tr class="total"><td>Total Steuern SN + ZP</td><td class="money">CHF 25’251’000</td><td class="money">CHF 14’640’000<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(commonCustomers))}</span></td><td>100,00 %</td><td>Reine Steuersicht ohne ITS-Vertrag</td></tr>${itsRow}`;
+    commonCustomerTable.tHead.rows[0].cells[1].textContent = 'Gesamtertrag 2026 (Plan)';
+    commonCustomerTable.tHead.rows[0].cells[2].textContent = 'Ertragsanteil';
+    commonCustomerTable.tHead.rows[0].cells[1].insertAdjacentHTML('afterend', '<th>Geplanter Aufwand 2026</th>');
+    const commonCostNote = document.createElement('p');
+    commonCostNote.className = 'note';
+    commonCostNote.textContent = `${costPeriodNote} Beim ITS-Vertrag entspricht der Aufwand CHF 5’073’000 den Vollkosten der Jahresplanung 2026.`;
+    commonCustomerPanel.append(commonCostNote);
+    for (const product of ['SN', 'ZP']) {
+      const customers = customerCosts.filter(item => item.product === product);
+      const rows = customers.map(item => `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span></td></tr>`).join('');
+      const detail = product === 'SN' ? ' Planaufwand pro Kunde proportional zum Ist-Kostenanteil gemäss Kostensicht verteilt. Cantone Ticino entspricht DDC TI. Gemeinden SN: Gemeinden TG CHF 843’457 und Gemeinden SG CHF 2’069; der Ertrag liegt zusammengefasst für SG/TG vor.' : ' Planaufwand pro Kunde proportional zum Ist-Kostenanteil gemäss Kostensicht verteilt. Der Aufwand P.1009 ist der reinen Steuersicht KStA ZH zugeordnet.';
+      const panel = document.createElement('div');
+      panel.className = 'panel customer-costs';
+      const totalLabel = `Total ${product}`;
+      panel.innerHTML = `<div class="panel-head"><div><h2>${product}: Erträge und Aufwände nach Kunden</h2><p>Planaufwand mit bisherigem Aufwand Januar–August 2026</p></div><span class="tag">PLAN / IST 2026</span></div><div class="table-wrap"><table><thead><tr><th>Kunde / Produkt</th><th>Gesamtertrag 2026 (Plan)</th><th>Geplanter Aufwand 2026</th></tr></thead><tbody>${rows}<tr class="total"><td>${totalLabel}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.revenue, 0))}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.planCost, 0))}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(customers))}</span></td></tr></tbody></table></div><p class="note">${costPeriodNote}${detail} Quelle: ${product}_Kostensicht.xlsm, Blatt «Kostensicht».</p>`;
+      document.querySelector(`#${product.toLowerCase()}-finance .summary`).after(panel);
+    }
+    for (const [viewId, product] of [['sn-finance', 'SN'], ['zp-finance', 'ZP']]) {
+      const yearlyPanel = document.querySelector(`#${viewId} .panel:not(.customer-costs)`);
+      yearlyPanel.querySelector('.panel-head h2').textContent = `${product}: Jahresübersicht Ertrag und Aufwand`;
+      yearlyPanel.querySelector('.panel-head p').textContent = product === 'ZP' ? 'Reine Steuersicht 2026–2035' : 'Planwerte 2026–2035';
+      yearlyPanel.querySelector('.panel-head + .table-wrap').remove();
+      yearlyPanel.querySelector('h3').remove();
+    }
+    document.querySelector('.intro p').textContent = 'Erträge und Vollkosten stammen aus der verbindlichen Jahresplanung. Die zusätzlichen Kundenaufwände stammen aus den Kostensichten und berücksichtigen Januar bis August 2026.';
+    document.querySelector('footer span').textContent = 'Quellen: SN_ZP_Datenbasis.xlsx (Planung); SN_Kostensicht.xlsm / ZP_Kostensicht.xlsm (Aufwände Jan.–Aug. 2026).';
+
     splitCurrencyBreakdowns(document.querySelector('main'));
     emphasizeCurrencyValues(document.querySelector('main'));
     const dashboardDemographyData = (() => {
@@ -287,11 +370,6 @@
     const riskCallout = document.querySelector('#risks .callout');
     riskCallout.querySelector('h2').textContent = 'Know-how und Security bestimmen den Restbetrieb.';
     riskCallout.querySelector('p').textContent = 'Neue KI-gestützte Bedrohungsszenarien erhöhen den Absicherungs- und Änderungsbedarf. Ohne Security-Fähigkeit und Schlüsselwissen bleibt ein Restbetrieb nicht verantwortbar.';
-    const tabs = document.querySelectorAll('.tab');
-    const views = document.querySelectorAll('.view');
-    tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(item => item.classList.toggle('active', item === tab)); views.forEach(view => view.classList.toggle('hidden', view.id !== tab.dataset.view)); window.scrollTo({ top:0, behavior:'smooth' }); }));
-    const initialTab = document.querySelector(`.tab[data-view="${window.location.hash.slice(1)}"]`);
-    if (initialTab) initialTab.click();
   </script>
 </body>
 </html>
