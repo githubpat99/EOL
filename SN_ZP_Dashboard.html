@@ -16,6 +16,7 @@
     .brand { display:flex; gap:12px; align-items:center; font-weight:800; letter-spacing:0; }
     .mark { display:grid; place-items:center; width:34px; height:34px; background:var(--teal); color:#fff; border-radius:9px; }
     .brand small,.date,.eyebrow,.tag { font:11px 'DM Mono',monospace; color:var(--muted); }
+    .date { max-width:520px; text-align:right; line-height:1.45; }
     .brand small { display:block; letter-spacing:.06em; margin-top:2px; }
     nav { display:flex; gap:7px; overflow:auto; padding:18px 0; border-bottom:1px solid var(--line); }
     button { font:inherit; cursor:pointer; }
@@ -43,6 +44,25 @@
     .panel-head p,.note { margin:0; color:var(--muted); font-size:12px; line-height:1.55; }
     .tag { padding:6px 8px; background:var(--soft); color:var(--teal); border:1px solid #b9ddd5; white-space:nowrap; }
     .detail-link { display:inline-flex; align-items:center; min-height:32px; padding:7px 11px; font-weight:700; text-decoration:none; }
+    .dashboard-actions { display:flex; justify-content:flex-end; gap:8px; margin:-10px 0 14px; }
+    .icon-action { display:inline-flex; align-items:center; gap:8px; min-height:36px; padding:8px 11px; border:1px solid var(--line); border-radius:5px; background:var(--panel); color:var(--teal); font-size:12px; font-weight:700; }
+    .icon-action:hover { border-color:#9bcfc5; background:#f7fffc; }
+    .icon-action .icon { display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:var(--soft); font:700 13px Manrope,sans-serif; }
+    dialog { width:min(720px,calc(100% - 32px)); max-height:85vh; padding:0; border:1px solid var(--line); background:var(--panel); color:var(--ink); box-shadow:0 24px 70px rgba(23,35,31,.22); }
+    dialog::backdrop { background:rgba(23,35,31,.46); }
+    .dialog-head { position:sticky; top:0; display:flex; align-items:start; justify-content:space-between; gap:20px; padding:20px 22px 14px; border-bottom:1px solid var(--line); background:var(--panel); }
+    .dialog-head h2 { margin:0; }
+    .dialog-close { width:32px; height:32px; border:1px solid var(--line); border-radius:50%; background:transparent; color:var(--muted); font-size:20px; line-height:1; }
+    .dialog-body { padding:20px 22px 24px; color:var(--muted); font-size:13px; line-height:1.55; }
+    .dialog-body h3 { color:var(--ink); margin:20px 0 7px; }
+    .dialog-body h3:first-child { margin-top:0; }
+    .dialog-body ol,.dialog-body ul { padding-left:21px; }
+    .dialog-body li { margin:7px 0; }
+    .dialog-body code { padding:2px 5px; background:#f0ece2; color:var(--ink); }
+    .source-list { display:grid; grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr); border:1px solid var(--line); }
+    .source-list > div { padding:9px 11px; border-bottom:1px solid var(--line); }
+    .source-list > div:nth-last-child(-n+2) { border-bottom:0; }
+    .source-list > div:nth-child(odd) { color:var(--ink); font-weight:700; }
     .metric { display:grid; grid-template-columns:minmax(0,1fr) 130px 80px; align-items:center; gap:12px; border-top:1px solid var(--line); padding:14px 0; font-size:12px; }
     .metric strong { display:block; font-size:12px; }
     .metric small { color:var(--muted); font-size:10px; }
@@ -71,7 +91,7 @@
     .view.hidden { display:none; }
     footer { border-top:1px solid var(--line); padding-top:15px; color:var(--muted); display:flex; justify-content:space-between; gap:20px; font:10px 'DM Mono',monospace; }
     @media (max-width:850px) { .shell { padding:20px; } .intro,.grid { display:block; } .intro p { margin-top:18px; } .summary,#demography .summary { grid-template-columns:repeat(2,1fr); } .callout { margin-bottom:18px; } }
-    @media (max-width:500px) { h1 { font-size:34px; } .summary { gap:8px; } .stat { padding:15px; } .value { font-size:25px; } footer { display:block; line-height:1.7; } }
+    @media (max-width:500px) { h1 { font-size:34px; } .summary { gap:8px; } .stat { padding:15px; } .value { font-size:25px; } .dashboard-actions { justify-content:flex-start; flex-wrap:wrap; } footer { display:block; line-height:1.7; } }
     /* Keep summary values inside their cards at every viewport width. */
     .summary { grid-template-columns:repeat(4,minmax(0,1fr)); }
     .stat { min-width:0; container-type:inline-size; }
@@ -87,6 +107,7 @@
     <section class="intro"><div><div class="eyebrow">Management-Steuerung</div><h1>Kunden, Kernumsatz und Kosten im selben Entscheidbild.</h1></div><p>Erträge und Vollkosten stammen aus der verbindlichen Jahresplanung inklusive direkter Kosten, Personal, ILV und ITS.</p></section>
 
     <section id="common" class="view">
+      <div class="dashboard-actions" aria-label="Dashboard-Hilfe"><button class="icon-action" type="button" data-dialog="update-help"><span class="icon" aria-hidden="true">↻</span>Monatliches Update</button><button class="icon-action" type="button" data-dialog="data-info"><span class="icon" aria-hidden="true">i</span>Informationen</button></div>
       <div class="summary"><article class="stat"><div class="label">Gesamtertrag 2026</div><div class="value">CHF 34,22 Mio.</div><div class="delta">Planung · alle Kunden</div></article><article class="stat"><div class="label">Gesamtertrag SN + ZP</div><div class="value">CHF 34,22 Mio.</div><div class="delta delta-lines"><span>SN CHF 14,81 Mio.</span><span>ZP CHF 19,41 Mio.</span></div></article><article class="stat"><div class="label">Vollkosten SN + ZP</div><div class="value">CHF 19,71 Mio.</div><div class="delta">Vollkosten 2026</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article></div>
       <div class="panel"><div class="panel-head"><div><h2>Umsätze bei den Kunden</h2><p>Gesamterträge gemäss verbindlicher Planung inklusive Kantone und Gemeinden</p></div><span class="tag">CHF 34,22 MIO.</span></div><div class="table-wrap"><table><thead><tr><th>Kunde</th><th>Gesamtertrag 2026</th><th>Anteil</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>KStA ZH</strong></td><td class="money">CHF 14’112’000</td><td>41,2 %</td><td>Wartung & Betrieb, Direktaufträge, Kundenprojekte und ITS</td></tr><tr><td><strong>KStA SG</strong></td><td class="money">CHF 8’625’000</td><td>25,2 %</td><td>Wartung & Betrieb, Direktaufträge und Kundenprojekte</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>15,5 %</td><td>Betrieb, DA und Kundenprojekte</td></tr><tr><td><strong>Cantone Ticino</strong></td><td class="money">CHF 3’909’000</td><td>11,4 %</td><td>Wartung & Betrieb sowie Kundenprojekte</td></tr><tr><td><strong>Gemeinden SN</strong></td><td class="money">CHF 2’273’000</td><td>6,6 %</td><td>Betrieb Gemeinden SG & TG</td></tr><tr class="total"><td>Total</td><td class="money">CHF 34’219’000</td><td>100,0 %</td><td>SN und ZP · verbindliche Planung</td></tr></tbody></table></div></div>
       <div class="grid"><article class="panel"><div class="panel-head"><div><h2>Gemeinsame Steuerung</h2><p>Ertrag, Aufwand, Kosten und Kapazität</p></div><span class="tag">2026</span></div><div class="metric"><div><strong>Gesamtertrag</strong><small>Verbindliche Planung aller Kunden</small></div><div class="number">34,22 Mio.</div><div class="state">CHF</div></div><div class="metric"><div><strong>Aufwand</strong><small>Budgetstunden SVZ für SN und ZP</small></div><div class="number">29’438 h</div><div class="state">SVZ</div></div><div class="metric"><div><strong>Vollkosten</strong><small>direkte Kosten, Personal, ILV und ITS</small></div><div class="number">19,71 Mio.</div><div class="state">PLAN</div></div><div class="metric"><div><strong>FTE heute → morgen</strong><small>vier SVZ Teams</small></div><div class="number">29,0 → 14,5</div><div class="state">−50 %</div></div></article><aside class="callout"><div class="eyebrow">Entscheidpunkt</div><h2>Restbetrieb nicht aus heutiger Kapazität ableiten.</h2><p>SN endet fachlich gestaffelt bis 2032. ZP benötigt nach 2032 einen separat finanzierten und personell abgesicherten Betriebspfad.</p></aside></div>
@@ -104,16 +125,53 @@
       <div class="grid"><article class="panel"><div class="panel-head"><div><h2>Risikoportfolio</h2><p>Fokus aus Planung, Vollkosten und Demografie</p></div><span class="tag">HOCH</span></div><div class="risk"><span>ABP Know-how</span><div class="bar"><i style="width:80%"></i></div><b>−80 %</b></div><div class="risk"><span>ILV-Anstieg</span><div class="bar"><i style="width:72%"></i></div><b>CHF 6,98 Mio.</b></div><div class="risk"><span>ZP Restbetrieb</span><div class="bar"><i style="width:75%"></i></div><b>2035 offen</b></div><div class="risk"><span>SN Betriebsende</span><div class="bar"><i style="width:68%"></i></div><b>2030–32</b></div></article><aside class="callout"><div class="eyebrow">Hauptfrage</div><h2>Wer finanziert und erbringt den Restbetrieb?</h2><p>Ohne separaten Entscheid bleiben Restbetrieb, ILV, Security und die dafür nötigen Schlüsselrollen nicht gesichert.</p></aside></div>
       <div class="panel"><div class="panel-head"><div><h2>Steuerungsbedarf</h2><p>Konkrete Entscheide für die nächste Management-Runde</p></div></div><div class="metric"><div><strong>SN Restbetrieb</strong><small>Bestehende Steuerperioden nach 2032</small></div><div class="number">1 Mandat</div><div class="state">OFFEN</div></div><div class="metric"><div><strong>ZP Betrieb bis 2035</strong><small>KStA ZH erwartet abgesicherten Pfad</small></div><div class="number">1 Plan</div><div class="state">NICHT GARANTIERT</div></div><div class="metric"><div><strong>ILV und ITS</strong><small>Technologie, Security und Synergieeffekte bepreisen</small></div><div class="number">CHF 12,05 Mio.</div><div class="state">PRÜFEN</div></div></div>
     </section>
+    <dialog id="update-help" aria-labelledby="update-help-title">
+      <div class="dialog-head"><div><div class="eyebrow">Arbeitsanweisung</div><h2 id="update-help-title">Monatliches Dashboard-Update</h2></div><button class="dialog-close" type="button" aria-label="Schliessen">×</button></div>
+      <div class="dialog-body">
+        <h3>1. Quelldateien aktualisieren</h3>
+        <ol><li>Im OneDrive-Ordner <code>EOL\Prognose</code> die aktuellen Dateien <code>SN_Kostensicht.xlsm</code> und <code>ZP_Kostensicht.xlsm</code> ablegen.</li><li>Prüfen, dass beide Dateien vollständig synchronisiert und lokal verfügbar sind.</li><li>Die enthaltenen SAP-Perioden kontrollieren. Das Änderungsdatum der Datei ist nicht automatisch die fachliche Buchungsperiode.</li></ol>
+        <h3>2. Finanzdaten erzeugen</h3>
+        <ol start="4"><li>Im Dashboard-Ordner auf <code>Finanzupdate starten.cmd</code> doppelklicken.</li><li>Zuerst die aktuelle SN-, danach die aktuelle ZP-Kostensicht auswählen.</li><li>Die Erfolgsmeldung abwarten. Das Skript aktualisiert die Ist-Aufwände je Kunde, den SAP-Abzug und die anteilige Verteilung der Plan-Vollkosten in <code>dashboard_finance_data.json</code>.</li></ol>
+        <h3>3. Demografie aktualisieren</h3>
+        <ol start="7"><li>Die SVZ-Teamleiter aktualisieren die Demografie in der <a href="https://make.powerapps.com/e/b6a920fb-95c1-ed80-b27b-b59fcf76d44e/canvas/?action=edit&amp;app-id=%2Fproviders%2FMicrosoft.PowerApps%2Fapps%2F10fd4456-19f9-4014-9b55-73cf4892c56c" target="_blank" rel="noopener noreferrer">Power App</a>. Der Zugriff ist nur für die Teamleiter SVZ vorgesehen.</li><li>Nach Abschluss erhält der Admin die Meldung <strong>ready for update</strong>.</li><li>Der Admin startet den <a href="https://make.powerautomate.com/environments/b6a920fb-95c1-ed80-b27b-b59fcf76d44e/flows/9a72a569-322a-46cc-9fb8-38259ed32c07" target="_blank" rel="noopener noreferrer">Power-Automate-Flow</a>.</li><li>Nach erfolgreichem Flow prüfen, dass <code>demografie_powerapps.json</code> mit dem neuen Stand bereitsteht und das Dashboard nachgeführt wurde. Die historische Datei <code>EoL_SVZ_V0.6.xlsx</code> bleibt nur Referenz.</li></ol>
+        <h3>4. Prüfen und veröffentlichen</h3>
+        <ol start="9"><li>Dashboard neu laden und Steuer-Total, ITS-Abgrenzung, Kundenaufwände, Jahresreihen und Demografie prüfen.</li><li>Kontrollieren, dass ITS separat und nicht im Steuer-Total enthalten ist.</li><li>Änderungen mit verständlicher Monatsangabe committen und nach <code>main</code> pushen.</li></ol>
+      </div>
+    </dialog>
+    <dialog id="data-info" aria-labelledby="data-info-title">
+      <div class="dialog-head"><div><div class="eyebrow">Datenherkunft</div><h2 id="data-info-title">Quellen und Datenstände</h2></div><button class="dialog-close" type="button" aria-label="Schliessen">×</button></div>
+      <div class="dialog-body">
+        <div class="source-list"><div>Erträge</div><div>Verbindliches Budget 2026 aus der Finanzplanung.</div><div>Planaufwand</div><div>Jahres-Vollkosten; pro Kunde anhand des aktuellen Kostenanteils verteilt.</div><div>Ist-Aufwand</div><div>SAP-Kostensichten SN und ZP für die ausgewiesene Buchungsperiode.</div><div>ITS-Vertrag</div><div>Separater Vertrag; weder im ZP-Steuerertrag noch im Steuer-Total enthalten.</div><div>Demografie</div><div>Pflege durch die SVZ-Teamleiter in Power Apps, Freigabe an den Admin mit «ready for update» und Export über Power Automate nach <code>demografie_powerapps.json</code>. <code>EoL_SVZ_V0.6.xlsx</code> ist nur die historische Root-Datei.</div></div>
+        <h3>Was bedeutet der Stand?</h3><p><strong>Dashboard aktualisiert</strong> bezeichnet die letzte Zusammenführung. <strong>Budget</strong> benennt die Planversion. <strong>SAP-Periode</strong> bezeichnet die enthaltenen Buchungsmonate. Das Datum des SAP-Abzugs kann später liegen als die enthaltene Periode.</p>
+        <h3>Technische Datenhaltung</h3><p><code>dashboard_finance_data.json</code> enthält Finanzwerte und Finanz-Metadaten. <code>demografie_powerapps.json</code> bleibt die getrennte Demografiequelle. Beide werden erst im Dashboard zusammengeführt.</p>
+      </div>
+    </dialog>
     <footer><span>Quelle: verbindliche Datenbasis SN_ZP_Datenbasis.xlsx</span><span>Vollkosten enthalten direkte Kosten, Personal, ILV und ITS.</span></footer>
   </main>
-  <script>
+  <script type="module">
+    const financeData = await fetch('dashboard_finance_data.json', { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error('Finanzdaten nicht erreichbar');
+        return response.json();
+      })
+      .catch(() => null);
+    const financeDigits = value => new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 }).format(value);
+    const financeMio = value => (value / 1000000).toFixed(2).replace('.', ',');
+    if (financeData?.metadata) {
+      const meta = financeData.metadata;
+      const status = document.querySelector('.date');
+      status.textContent = `Dashboard ${meta.dashboard_updated.split('-').reverse().join('.')} · ${meta.budget_label} · SAP ${meta.sap_period}`;
+      status.title = `SAP-Abzug: ${meta.sap_extract_date.split('-').reverse().join('.')} · Demografie: letzter Datenimport`;
+    }
     const snFinance = document.getElementById('sn-finance');
     const zpFinance = document.createElement('section');
     zpFinance.id = 'zp-finance';
     zpFinance.className = 'view hidden';
     const snFinancePanels = snFinance.querySelectorAll('.panel');
     const zpSummary = snFinance.querySelector('.summary').cloneNode(true);
-    zpSummary.innerHTML = `<article class="stat"><div class="label">ZP Steuerertrag 2026</div><div class="value">CHF 10,44 Mio.</div><div class="delta">reine Steuersicht</div></article><article class="stat"><div class="label">Geplanter Aufwand STE 2026</div><div class="value">CHF 7,11 Mio.</div><div class="delta">Bisheriger Aufwand Jan.–Aug. · CHF 3,94 Mio.</div></article><article class="stat"><div class="label">Gemeinden ZH</div><div class="value">CHF 5,30 Mio.</div><div class="delta">Betrieb, DA und Kundenprojekte</div></article><article class="stat warn"><div class="label">ZP Betrieb ab 2033</div><div class="value">offen</div><div class="delta">Planung vorhanden; neu zu vereinbaren</div></article>`;
+    const zp2026 = financeData?.annual?.ZP_STE?.['2026'];
+    const zpActual2026 = financeData?.customers.filter(item => item.product === 'ZP').reduce((sum, item) => sum + (item.actual_cost ?? 0), 0) ?? 3937661;
+    zpSummary.innerHTML = `<article class="stat"><div class="label">ZP Steuerertrag 2026</div><div class="value">CHF ${financeMio(zp2026?.revenue ?? 10444000)} Mio.</div><div class="delta">reine Steuersicht</div></article><article class="stat"><div class="label">Geplanter Aufwand STE 2026</div><div class="value">CHF ${financeMio(zp2026?.full_cost ?? 7105000)} Mio.</div><div class="delta">Bisheriger Aufwand Jan.–Aug. · CHF ${financeMio(zpActual2026)} Mio.</div></article><article class="stat"><div class="label">Gemeinden ZH</div><div class="value">CHF 5,30 Mio.</div><div class="delta">Betrieb, DA und Kundenprojekte</div></article><article class="stat warn"><div class="label">ZP Betrieb ab 2033</div><div class="value">offen</div><div class="delta">Planung vorhanden; neu zu vereinbaren</div></article>`;
     zpFinance.append(zpSummary, snFinancePanels[1]);
     snFinance.after(zpFinance);
     // Navigation früh initialisieren, damit spätere Datenfehler die Tabs nicht blockieren.
@@ -126,6 +184,15 @@
     }));
     const initialTab = document.querySelector(`.tab[data-view="${window.location.hash.slice(1)}"]`);
     if (initialTab) initialTab.click();
+    document.querySelectorAll('[data-dialog]').forEach(button => button.addEventListener('click', () => {
+      document.getElementById(button.dataset.dialog).showModal();
+    }));
+    document.querySelectorAll('dialog').forEach(dialog => {
+      dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', event => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
     zpFinance.querySelector('.panel-head .tag').textContent = 'ZP · bis 2035';
     const zpPerspectiveBody = zpFinance.querySelector('.panel table tbody');
     zpPerspectiveBody.innerHTML = `<tr><td><strong>Kanton ZH · Steuern</strong></td><td class="money">CHF 5’144’000</td><td>Wartung & Betrieb CHF 4’432’000, Direktaufträge CHF 210’000 und Kundenprojekte CHF 502’000</td></tr><tr><td><strong>Gemeinden ZH · Steuern</strong></td><td class="money">CHF 5’300’000</td><td>Betrieb CHF 5’190’000, DA CHF 87’000 und Kundenprojekte CHF 23’000</td></tr><tr class="total"><td><strong>ZP Steuerertrag</strong></td><td class="money">CHF 10’444’000</td><td>Kanton ZH CHF 5’144’000 plus Gemeinden ZH CHF 5’300’000</td></tr><tr><td><strong>Vollkosten ZP · Steuern</strong></td><td class="money">CHF 7’105’000</td><td>Direkte Kosten CHF 465’000, Personal CHF 3’762’000 und ILV CHF 2’878’000</td></tr><tr><td><strong>Budgetaufwand SVZ</strong></td><td class="money">19’640 h</td><td>SVZ-Abteilungsaufwand; nicht die gesamte Kostenbasis</td></tr>`;
@@ -135,12 +202,16 @@
     zp2034.cells[4].textContent = 'Bestehende Steuerperioden / Readonly gemäss Planung. Muss neu vereinbart werden.';
     zp2034.insertAdjacentHTML('afterend', '<tr><td><strong>2035</strong></td><td>CHF 0</td><td>CHF 0</td><td class="money">CHF 0</td><td>Ende der Planung</td></tr>');
     zpLifecycle.closest('table').querySelector('th:nth-child(2)').textContent = 'Gesamtertrag KStA ZH';
-    const annualRevenue = {
+    const annualRevenueFallback = {
       'sn-finance': { 2026: ['14’807’000', '7’272’000'], 2027: ['14’628’000', '7’134’000'], 2028: ['14’588’000', '6’888’000'], 2029: ['14’588’000', '6’958’000'], 2030: ['12’588’000', '5’030’000'], 2031: ['8’804’000', '1’446’000'] },
       'zp-finance': { 2026: ['10’444’000', '3’339’000'], 2027: ['10’176’000', '2’861’000'], 2028: ['10’069’000', '2’704’000'], 2029: ['10’069’000', '2’742’000'], 2030: ['10’069’000', '2’798’000'], 2031: ['10’069’000', '2’478’000'], 2032: ['10’069’000', '48’000'], 2033: ['10’069’000', '−52’000'], 2034: ['10’069’000', '−124’000'] }
     };
+    const annualRevenue = financeData ? {
+      'sn-finance': Object.fromEntries(Object.entries(financeData.annual.SN).map(([year, row]) => [year, [financeDigits(row.revenue), financeDigits(row.margin)]])),
+      'zp-finance': Object.fromEntries(Object.entries(financeData.annual.ZP_STE).map(([year, row]) => [year, [financeDigits(row.revenue), financeDigits(row.margin)]]))
+    } : annualRevenueFallback;
     // Reine STE-Vollkosten: ZP-Gesamtvollkosten abzüglich ITS-Vertrag CHF 5’073’000 pro Planjahr.
-    const zpTaxCosts = { 2026: '7’105’000', 2027: '7’315’000', 2028: '7’365’000', 2029: '7’327’000', 2030: '7’271’000', 2031: '7’591’000', 2032: '10’021’000', 2033: '10’121’000', 2034: '10’193’000' };
+    const zpTaxCosts = financeData ? Object.fromEntries(Object.entries(financeData.annual.ZP_STE).map(([year, row]) => [year, financeDigits(row.full_cost)])) : { 2026: '7’105’000', 2027: '7’315’000', 2028: '7’365’000', 2029: '7’327’000', 2030: '7’271’000', 2031: '7’591’000', 2032: '10’021’000', 2033: '10’121’000', 2034: '10’193’000' };
     for (const [viewId, values] of Object.entries(annualRevenue)) {
       const lifecycleRows = document.querySelectorAll(`#${viewId} h3 + .table-wrap tbody tr`);
       lifecycleRows.forEach(row => {
@@ -206,7 +277,7 @@
     // Kostensicht 2026: gespeicherte Gesamtkosten inklusive gemeinsamer Kosten.
     // SN: Kostensicht!D30:D33; ZP: Kostensicht!D22:D23.
     // Mit Monatsübersicht Januar–August abgeglichen; keine Hochrechnung.
-    const customerCosts = [
+    const customerCostsFallback = [
       { product: 'SN', customer: 'KStA SG', revenue: 8625000, planCost: 1697002, cost: 972486.10167792824 },
       { product: 'SN', customer: 'Cantone Ticino', revenue: 3909000, planCost: 4362545, cost: 2500005.7810805086 },
       { product: 'SN', customer: 'Gemeinden SN', revenue: 2273000, planCost: 1475453, cost: 843456.78226395836 + 2068.7349776254628 },
@@ -214,30 +285,46 @@
       { product: 'ITS', customer: 'KStA ZH · separater Vertrag ITS', revenue: 8968000, planCost: 5073000, cost: null },
       { product: 'ZP', customer: 'Gemeinden ZH', revenue: 5300000, planCost: 4921634, cost: 2727618.2222090648 }
     ];
+    const customerCosts = financeData ? financeData.customers.map(item => ({
+      product: item.product,
+      customer: item.customer,
+      revenue: item.revenue,
+      planCost: item.plan_cost,
+      cost: item.actual_cost
+    })) : customerCostsFallback;
     const formatCustomerChf = value => `CHF ${new Intl.NumberFormat('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value)}`;
     const formatCustomerCost = value => value === null ? '' : formatCustomerChf(value);
     const knownCostTotal = items => items.reduce((sum, item) => sum + (item.cost ?? 0), 0);
     const costPeriodNote = 'Aufwände: Januar bis August 2026 berücksichtigt, inklusive verteilter gemeinsamer Kosten gemäss Kostensicht. Erträge: Jahresplanung 2026; unterschiedliche Zeiträume, daher keine Marge aus diesen Werten.';
-    document.querySelector('#common .summary').innerHTML = `<article class="stat"><div class="label">Steuerertrag SN + ZP 2026</div><div class="value">CHF 25,25 Mio.</div><div class="delta delta-lines"><span>SN CHF 14,81 Mio.</span><span>ZP Steuern CHF 10,44 Mio.</span></div></article><article class="stat"><div class="label">ITS Vertrag 2026 · separat</div><div class="value">CHF 8,97 Mio.</div><div class="delta">Aufwand CHF 5,07 Mio. · nicht im Total</div></article><article class="stat"><div class="label">Planaufwand Steuern 2026</div><div class="value">CHF 14,64 Mio.</div><div class="delta">Bisher Jan.–Aug. · CHF 8,26 Mio.</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article>`;
+    const snCustomers2026 = customerCosts.filter(item => item.product === 'SN');
+    const zpCustomers2026 = customerCosts.filter(item => item.product === 'ZP');
+    const taxCustomers2026 = [...snCustomers2026, ...zpCustomers2026];
+    const its2026 = customerCosts.find(item => item.product === 'ITS');
+    const snRevenue2026 = snCustomers2026.reduce((sum, item) => sum + item.revenue, 0);
+    const zpRevenue2026 = zpCustomers2026.reduce((sum, item) => sum + item.revenue, 0);
+    const taxRevenue2026 = snRevenue2026 + zpRevenue2026;
+    const taxPlanCost2026 = taxCustomers2026.reduce((sum, item) => sum + item.planCost, 0);
+    document.querySelector('#common .summary').innerHTML = `<article class="stat"><div class="label">Steuerertrag SN + ZP 2026</div><div class="value">CHF ${financeMio(taxRevenue2026)} Mio.</div><div class="delta delta-lines"><span>SN CHF ${financeMio(snRevenue2026)} Mio.</span><span>ZP Steuern CHF ${financeMio(zpRevenue2026)} Mio.</span></div></article><article class="stat"><div class="label">ITS Vertrag 2026 · separat</div><div class="value">CHF ${financeMio(its2026.revenue)} Mio.</div><div class="delta">Aufwand CHF ${financeMio(its2026.planCost)} Mio. · nicht im Total</div></article><article class="stat"><div class="label">Planaufwand Steuern 2026</div><div class="value">CHF ${financeMio(taxPlanCost2026)} Mio.</div><div class="delta">Bisher Jan.–Aug. · CHF ${financeMio(knownCostTotal(taxCustomers2026))} Mio.</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article>`;
     const commonCustomerPanel = document.querySelector('#common > .panel');
     commonCustomerPanel.querySelector('h2').textContent = 'Erträge und Aufwände nach Kunden';
     commonCustomerPanel.querySelector('.panel-head p').textContent = 'Erträge: Jahresplanung 2026 · Kundenaufwände: bis August · ITS-Vollkosten: Jahresplanung';
-    commonCustomerPanel.querySelector('.tag').textContent = 'CHF 25,25 MIO. · STEUERN';
+    commonCustomerPanel.querySelector('.tag').textContent = `CHF ${financeMio(taxRevenue2026)} MIO. · STEUERN`;
     const commonCustomerTable = commonCustomerPanel.querySelector('table');
     const commonCustomers = [
-      { ...customerCosts.find(item => item.customer === 'KStA ZH · Steuern'), share: '20,37 %', description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
-      { ...customerCosts.find(item => item.customer === 'KStA SG'), share: '34,16 %', description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
-      { ...customerCosts.find(item => item.customer === 'Gemeinden ZH'), share: '20,99 %', description: 'Betrieb, DA und Kundenprojekte' },
-      { ...customerCosts.find(item => item.customer === 'Cantone Ticino'), share: '15,48 %', description: 'Wartung & Betrieb sowie Kundenprojekte' },
-      { ...customerCosts.find(item => item.customer === 'Gemeinden SN'), share: '9,00 %', description: 'Betrieb Gemeinden SG & TG' }
+      { ...customerCosts.find(item => item.customer === 'KStA ZH · Steuern'), description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'KStA SG'), description: 'Wartung & Betrieb, Direktaufträge und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Gemeinden ZH'), description: 'Betrieb, DA und Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Cantone Ticino'), description: 'Wartung & Betrieb sowie Kundenprojekte' },
+      { ...customerCosts.find(item => item.customer === 'Gemeinden SN'), description: 'Betrieb Gemeinden SG & TG' }
     ];
     const commonRows = commonCustomers.map(item => {
       const actual = item.cost === null ? '<span class="cost-actual">Separater Vertrag</span>' : `<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span>`;
-      return `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}${actual}</td><td>${item.share}</td><td>${item.description}</td></tr>`;
+      const share = `${(item.revenue / taxRevenue2026 * 100).toFixed(2).replace('.', ',')} %`;
+      return `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}${actual}</td><td>${share}</td><td>${item.description}</td></tr>`;
     }).join('');
     const itsContract = customerCosts.find(item => item.product === 'ITS');
     const itsRow = `<tr><td><strong>${itsContract.customer}</strong></td><td class="money">${formatCustomerChf(itsContract.revenue)}</td><td class="money">${formatCustomerChf(itsContract.planCost)}<span class="cost-actual">Separater Vertrag · nicht im Total</span></td><td>separat</td><td>Separater Vertrag; nicht Teil der Steuersicht oder des Totals</td></tr>`;
-    commonCustomerTable.tBodies[0].innerHTML = `${commonRows}<tr class="total"><td>Total Steuern SN + ZP</td><td class="money">CHF 25’251’000</td><td class="money">CHF 14’640’000<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(commonCustomers))}</span></td><td>100,00 %</td><td>Reine Steuersicht ohne ITS-Vertrag</td></tr>${itsRow}`;
+    commonCustomerTable.tBodies[0].innerHTML = `${commonRows}<tr class="total"><td>Total Steuern SN + ZP</td><td class="money">${formatCustomerChf(taxRevenue2026)}</td><td class="money">${formatCustomerChf(taxPlanCost2026)}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(commonCustomers))}</span></td><td>100,00 %</td><td>Reine Steuersicht ohne ITS-Vertrag</td></tr>${itsRow}`;
     commonCustomerTable.tHead.rows[0].cells[1].textContent = 'Gesamtertrag 2026 (Plan)';
     commonCustomerTable.tHead.rows[0].cells[2].textContent = 'Ertragsanteil';
     commonCustomerTable.tHead.rows[0].cells[1].insertAdjacentHTML('afterend', '<th>Geplanter Aufwand 2026</th>');
@@ -245,6 +332,10 @@
     commonCostNote.className = 'note';
     commonCostNote.textContent = `${costPeriodNote} Beim ITS-Vertrag entspricht der Aufwand CHF 5’073’000 den Vollkosten der Jahresplanung 2026.`;
     commonCustomerPanel.append(commonCostNote);
+    const snSummaryCards = document.querySelectorAll('#sn-finance .summary .stat');
+    snSummaryCards[0].querySelector('.value').textContent = `CHF ${financeMio(snRevenue2026)} Mio.`;
+    snSummaryCards[1].querySelector('.value').textContent = `CHF ${financeMio(snCustomers2026.reduce((sum, item) => sum + item.planCost, 0))} Mio.`;
+    snSummaryCards[1].querySelector('.delta').textContent = `Bisheriger Aufwand ${financeData?.metadata?.sap_period ?? 'Jan.–Aug. 2026'} · CHF ${financeMio(knownCostTotal(snCustomers2026))} Mio.`;
     for (const product of ['SN', 'ZP']) {
       const customers = customerCosts.filter(item => item.product === product);
       const rows = customers.map(item => `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span></td></tr>`).join('');
@@ -262,8 +353,9 @@
       yearlyPanel.querySelector('.panel-head + .table-wrap').remove();
       yearlyPanel.querySelector('h3').remove();
     }
-    document.querySelector('.intro p').textContent = 'Erträge und Vollkosten stammen aus der verbindlichen Jahresplanung. Die zusätzlichen Kundenaufwände stammen aus den Kostensichten und berücksichtigen Januar bis August 2026.';
+    document.querySelector('.intro p').textContent = 'Budget 2026 und SAP-Ist der ausgewiesenen Buchungsperiode im gemeinsamen Entscheidbild.';
     document.querySelector('footer span').textContent = 'Quellen: SN_ZP_Datenbasis.xlsx (Planung); SN_Kostensicht.xlsm / ZP_Kostensicht.xlsm (Aufwände Jan.–Aug. 2026).';
+    document.querySelector('footer span:last-child').textContent = financeData?.metadata ? `Dashboard ${financeData.metadata.dashboard_updated} · SAP-Abzug ${financeData.metadata.sap_extract_date} · Demografie gemäss letztem Import.` : 'Finanz-Metadaten konnten nicht geladen werden.';
 
     splitCurrencyBreakdowns(document.querySelector('main'));
     emphasizeCurrencyValues(document.querySelector('main'));

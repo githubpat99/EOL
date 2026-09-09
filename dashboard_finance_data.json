@@ -1,0 +1,145 @@
+﻿{
+    "metadata":  {
+                     "dashboard_updated":  "2026-09-09",
+                     "budget_year":  2026,
+                     "budget_label":  "Budget 2026",
+                     "sap_period":  "Jan.–Aug. 2026",
+                     "sap_extract_date":  "2026-09-07",
+                     "sources":  [
+                                     "SN_Kostensicht.xlsm",
+                                     "ZP_Kostensicht.xlsm",
+                                     "SN_ZP_Datenbasis.xlsx"
+                                 ]
+                 },
+    "contracts":  {
+                      "its":  {
+                                  "revenue":  8968000,
+                                  "plan_cost":  5073000
+                              }
+                  },
+    "customers":  [
+                      {
+                          "product":  "SN",
+                          "customer":  "KStA SG",
+                          "revenue":  8625000,
+                          "plan_cost":  1697002,
+                          "actual_cost":  972486.10167792824
+                      },
+                      {
+                          "product":  "SN",
+                          "customer":  "Cantone Ticino",
+                          "revenue":  3909000,
+                          "plan_cost":  4362545,
+                          "actual_cost":  2500005.7810805086
+                      },
+                      {
+                          "product":  "SN",
+                          "customer":  "Gemeinden SN",
+                          "revenue":  2273000,
+                          "plan_cost":  1475453,
+                          "actual_cost":  845525.51724158379
+                      },
+                      {
+                          "product":  "ZP",
+                          "customer":  "KStA ZH · Steuern",
+                          "revenue":  5144000,
+                          "plan_cost":  2183366,
+                          "actual_cost":  1210043.0077909403
+                      },
+                      {
+                          "product":  "ZP",
+                          "customer":  "Gemeinden ZH",
+                          "revenue":  5300000,
+                          "plan_cost":  4921634,
+                          "actual_cost":  2727618.2222090648
+                      },
+                      {
+                          "product":  "ITS",
+                          "customer":  "KStA ZH · separater Vertrag ITS",
+                          "revenue":  8968000,
+                          "plan_cost":  5073000,
+                          "actual_cost":  null
+                      }
+                  ],
+    "annual":  {
+                   "SN":  {
+                              "2026":  {
+                                           "revenue":  14807000,
+                                           "full_cost":  7535000,
+                                           "margin":  7272000
+                                       },
+                              "2027":  {
+                                           "revenue":  14628000,
+                                           "full_cost":  7494000,
+                                           "margin":  7134000
+                                       },
+                              "2028":  {
+                                           "revenue":  14588000,
+                                           "full_cost":  7700000,
+                                           "margin":  6888000
+                                       },
+                              "2029":  {
+                                           "revenue":  14588000,
+                                           "full_cost":  7630000,
+                                           "margin":  6958000
+                                       },
+                              "2030":  {
+                                           "revenue":  12588000,
+                                           "full_cost":  7558000,
+                                           "margin":  5030000
+                                       },
+                              "2031":  {
+                                           "revenue":  8804000,
+                                           "full_cost":  7358000,
+                                           "margin":  1446000
+                                       }
+                          },
+                   "ZP_STE":  {
+                                  "2026":  {
+                                               "revenue":  10444000,
+                                               "full_cost":  7105000,
+                                               "margin":  3339000
+                                           },
+                                  "2027":  {
+                                               "revenue":  10176000,
+                                               "full_cost":  7315000,
+                                               "margin":  2861000
+                                           },
+                                  "2028":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  7365000,
+                                               "margin":  2704000
+                                           },
+                                  "2029":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  7327000,
+                                               "margin":  2742000
+                                           },
+                                  "2030":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  7271000,
+                                               "margin":  2798000
+                                           },
+                                  "2031":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  7591000,
+                                               "margin":  2478000
+                                           },
+                                  "2032":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  10021000,
+                                               "margin":  48000
+                                           },
+                                  "2033":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  10121000,
+                                               "margin":  -52000
+                                           },
+                                  "2034":  {
+                                               "revenue":  10069000,
+                                               "full_cost":  10193000,
+                                               "margin":  -124000
+                                           }
+                              }
+               }
+}
