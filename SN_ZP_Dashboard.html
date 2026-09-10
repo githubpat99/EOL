@@ -17,6 +17,8 @@
     .mark { display:grid; place-items:center; width:34px; height:34px; background:var(--teal); color:#fff; border-radius:9px; }
     .brand small,.date,.eyebrow,.tag { font:11px 'DM Mono',monospace; color:var(--muted); }
     .date { max-width:520px; text-align:right; line-height:1.45; }
+    .header-meta { display:flex; align-items:center; gap:10px; }
+    .header-info { width:36px; padding:7px; justify-content:center; }
     .brand small { display:block; letter-spacing:.06em; margin-top:2px; }
     nav { display:flex; gap:7px; overflow:auto; padding:18px 0; border-bottom:1px solid var(--line); }
     button { font:inherit; cursor:pointer; }
@@ -102,12 +104,12 @@
 </head>
 <body>
   <main class="shell">
-    <header><div class="brand"><span class="mark">S</span><div>SN / ZP - EOL<small>Ertrag, Aufwand, Demografie und Risiken</small></div></div><div class="date">Stand 19.08.2026</div></header>
+    <header><div class="brand"><span class="mark">S</span><div>SN / ZP - EOL<small>Ertrag, Aufwand, Demografie und Risiken</small></div></div><div class="header-meta"><div class="date">Dashboard 09.09.2026</div><button class="icon-action header-info" type="button" data-dialog="data-info" aria-label="Quellen und Datenstände anzeigen" title="Quellen und Datenstände"><span class="icon" aria-hidden="true">i</span></button></div></header>
     <nav aria-label="Sichten"><button class="tab active" data-view="common">Gemeinsame Sicht</button><button class="tab" data-view="sn-finance">SN Ertrag & Aufwand</button><button class="tab" data-view="zp-finance">ZP Ertrag & Aufwand</button><button class="tab" data-view="demography">Demografie</button><button class="tab" data-view="risks">Risiken</button></nav>
     <section class="intro"><div><div class="eyebrow">Management-Steuerung</div><h1>Kunden, Kernumsatz und Kosten im selben Entscheidbild.</h1></div><p>Erträge und Vollkosten stammen aus der verbindlichen Jahresplanung inklusive direkter Kosten, Personal, ILV und ITS.</p></section>
 
     <section id="common" class="view">
-      <div class="dashboard-actions" aria-label="Dashboard-Hilfe"><button class="icon-action" type="button" data-dialog="update-help"><span class="icon" aria-hidden="true">↻</span>Monatliches Update</button><button class="icon-action" type="button" data-dialog="data-info"><span class="icon" aria-hidden="true">i</span>Informationen</button></div>
+      <div class="dashboard-actions" aria-label="Dashboard-Hilfe"><button class="icon-action" type="button" data-dialog="update-help"><span class="icon" aria-hidden="true">↻</span>Monatliches Update</button></div>
       <div class="summary"><article class="stat"><div class="label">Gesamtertrag 2026</div><div class="value">CHF 34,22 Mio.</div><div class="delta">Planung · alle Kunden</div></article><article class="stat"><div class="label">Gesamtertrag SN + ZP</div><div class="value">CHF 34,22 Mio.</div><div class="delta delta-lines"><span>SN CHF 14,81 Mio.</span><span>ZP CHF 19,41 Mio.</span></div></article><article class="stat"><div class="label">Vollkosten SN + ZP</div><div class="value">CHF 19,71 Mio.</div><div class="delta">Vollkosten 2026</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article></div>
       <div class="panel"><div class="panel-head"><div><h2>Umsätze bei den Kunden</h2><p>Gesamterträge gemäss verbindlicher Planung inklusive Kantone und Gemeinden</p></div><span class="tag">CHF 34,22 MIO.</span></div><div class="table-wrap"><table><thead><tr><th>Kunde</th><th>Gesamtertrag 2026</th><th>Anteil</th><th>Einordnung</th></tr></thead><tbody><tr><td><strong>KStA ZH</strong></td><td class="money">CHF 14’112’000</td><td>41,2 %</td><td>Wartung & Betrieb, Direktaufträge, Kundenprojekte und ITS</td></tr><tr><td><strong>KStA SG</strong></td><td class="money">CHF 8’625’000</td><td>25,2 %</td><td>Wartung & Betrieb, Direktaufträge und Kundenprojekte</td></tr><tr><td><strong>Gemeinden ZH</strong></td><td class="money">CHF 5’300’000</td><td>15,5 %</td><td>Betrieb, DA und Kundenprojekte</td></tr><tr><td><strong>Cantone Ticino</strong></td><td class="money">CHF 3’909’000</td><td>11,4 %</td><td>Wartung & Betrieb sowie Kundenprojekte</td></tr><tr><td><strong>Gemeinden SN</strong></td><td class="money">CHF 2’273’000</td><td>6,6 %</td><td>Betrieb Gemeinden SG & TG</td></tr><tr class="total"><td>Total</td><td class="money">CHF 34’219’000</td><td>100,0 %</td><td>SN und ZP · verbindliche Planung</td></tr></tbody></table></div></div>
       <div class="grid"><article class="panel"><div class="panel-head"><div><h2>Gemeinsame Steuerung</h2><p>Ertrag, Aufwand, Kosten und Kapazität</p></div><span class="tag">2026</span></div><div class="metric"><div><strong>Gesamtertrag</strong><small>Verbindliche Planung aller Kunden</small></div><div class="number">34,22 Mio.</div><div class="state">CHF</div></div><div class="metric"><div><strong>Aufwand</strong><small>Budgetstunden SVZ für SN und ZP</small></div><div class="number">29’438 h</div><div class="state">SVZ</div></div><div class="metric"><div><strong>Vollkosten</strong><small>direkte Kosten, Personal, ILV und ITS</small></div><div class="number">19,71 Mio.</div><div class="state">PLAN</div></div><div class="metric"><div><strong>FTE heute → morgen</strong><small>vier SVZ Teams</small></div><div class="number">29,0 → 14,5</div><div class="state">−50 %</div></div></article><aside class="callout"><div class="eyebrow">Entscheidpunkt</div><h2>Restbetrieb nicht aus heutiger Kapazität ableiten.</h2><p>SN endet fachlich gestaffelt bis 2032. ZP benötigt nach 2032 einen separat finanzierten und personell abgesicherten Betriebspfad.</p></aside></div>
@@ -141,12 +143,12 @@
     <dialog id="data-info" aria-labelledby="data-info-title">
       <div class="dialog-head"><div><div class="eyebrow">Datenherkunft</div><h2 id="data-info-title">Quellen und Datenstände</h2></div><button class="dialog-close" type="button" aria-label="Schliessen">×</button></div>
       <div class="dialog-body">
-        <div class="source-list"><div>Erträge</div><div>Verbindliches Budget 2026 aus der Finanzplanung.</div><div>Planaufwand</div><div>Jahres-Vollkosten; pro Kunde anhand des aktuellen Kostenanteils verteilt.</div><div>Ist-Aufwand</div><div>SAP-Kostensichten SN und ZP für die ausgewiesene Buchungsperiode.</div><div>ITS-Vertrag</div><div>Separater Vertrag; weder im ZP-Steuerertrag noch im Steuer-Total enthalten.</div><div>Demografie</div><div>Pflege durch die SVZ-Teamleiter in Power Apps, Freigabe an den Admin mit «ready for update» und Export über Power Automate nach <code>demografie_powerapps.json</code>. <code>EoL_SVZ_V0.6.xlsx</code> ist nur die historische Root-Datei.</div></div>
+        <div class="source-list"><div>Erträge 2026–2028</div><div>DeltaMaster «ER BeBu MJP (DM)»; Aufteilung nach Wartung/Betrieb, Direktaufträgen und Kundenprojekten.</div><div>Erträge ab 2029</div><div>Annahmen in <code>dashboard_finance_data.json</code>; keine DeltaMaster-Ist- beziehungsweise Freigabewerte.</div><div>Planaufwand</div><div>In <code>dashboard_finance_data.json</code> hinterlegte Jahres-Vollkosten; pro Kunde anhand des aktuellen Ist-Kostenanteils verteilt.</div><div>Ist-Aufwand</div><div>SAP-Kostensichten SN und ZP für die ausgewiesene Buchungsperiode.</div><div>ITS-Vertrag</div><div>Separater Vertrag; weder im ZP-Steuerertrag noch im Steuer-Total enthalten.</div><div>Demografie</div><div>Pflege durch die SVZ-Teamleiter in Power Apps, Freigabe an den Admin mit «ready for update» und Export über Power Automate nach <code>demografie_powerapps.json</code>. <code>EoL_SVZ_V0.6.xlsx</code> ist nur die historische Root-Datei.</div></div>
         <h3>Was bedeutet der Stand?</h3><p><strong>Dashboard aktualisiert</strong> bezeichnet die letzte Zusammenführung. <strong>Budget</strong> benennt die Planversion. <strong>SAP-Periode</strong> bezeichnet die enthaltenen Buchungsmonate. Das Datum des SAP-Abzugs kann später liegen als die enthaltene Periode.</p>
+        <h3>Berechnung und Zuordnung</h3><p>Planaufwände je Kunde werden proportional zum Ist-Kostenanteil gemäss Kostensicht verteilt. Die dargestellten Planerträge und Ist-Aufwände haben unterschiedliche Zeiträume; daraus wird keine Marge berechnet.</p><p>Bei SN entspricht Cantone Ticino der Bezeichnung DDC TI. Die Ist-Aufwände der Gemeinden SN umfassen Gemeinden TG und Gemeinden SG; der Ertrag wird für SG/TG zusammengefasst. Bei ZP wird der Aufwand P.1009 der reinen Steuersicht KStA ZH zugeordnet. Der ITS-Aufwand entspricht den Vollkosten der Jahresplanung und bleibt separat.</p>
         <h3>Technische Datenhaltung</h3><p><code>dashboard_finance_data.json</code> enthält Finanzwerte und Finanz-Metadaten. <code>demografie_powerapps.json</code> bleibt die getrennte Demografiequelle. Beide werden erst im Dashboard zusammengeführt.</p>
       </div>
     </dialog>
-    <footer><span>Quelle: verbindliche Datenbasis SN_ZP_Datenbasis.xlsx</span><span>Vollkosten enthalten direkte Kosten, Personal, ILV und ITS.</span></footer>
   </main>
   <script type="module">
     const financeData = await fetch('dashboard_finance_data.json', { cache: 'no-store' })
@@ -160,8 +162,8 @@
     if (financeData?.metadata) {
       const meta = financeData.metadata;
       const status = document.querySelector('.date');
-      status.textContent = `Dashboard ${meta.dashboard_updated.split('-').reverse().join('.')} · ${meta.budget_label} · SAP ${meta.sap_period}`;
-      status.title = `SAP-Abzug: ${meta.sap_extract_date.split('-').reverse().join('.')} · Demografie: letzter Datenimport`;
+      status.textContent = `Dashboard ${meta.dashboard_updated.split('-').reverse().join('.')}`;
+      status.removeAttribute('title');
     }
     const snFinance = document.getElementById('sn-finance');
     const zpFinance = document.createElement('section');
@@ -278,24 +280,24 @@
     // SN: Kostensicht!D30:D33; ZP: Kostensicht!D22:D23.
     // Mit Monatsübersicht Januar–August abgeglichen; keine Hochrechnung.
     const customerCostsFallback = [
-      { product: 'SN', customer: 'KStA SG', revenue: 8625000, planCost: 1697002, cost: 972486.10167792824 },
-      { product: 'SN', customer: 'Cantone Ticino', revenue: 3909000, planCost: 4362545, cost: 2500005.7810805086 },
-      { product: 'SN', customer: 'Gemeinden SN', revenue: 2273000, planCost: 1475453, cost: 843456.78226395836 + 2068.7349776254628 },
-      { product: 'ZP', customer: 'KStA ZH · Steuern', revenue: 5144000, planCost: 2183366, cost: 1210043.0077909403 },
+      { product: 'SN', customer: 'KStA SG', revenue: 8750000, planCost: 1697002, cost: 972486.10167792824 },
+      { product: 'SN', customer: 'Cantone Ticino', revenue: 3839000, planCost: 4362545, cost: 2500005.7810805086 },
+      { product: 'SN', customer: 'Gemeinden SN', revenue: 2258000, planCost: 1475453, cost: 843456.78226395836 + 2068.7349776254628 },
+      { product: 'ZP', customer: 'KStA ZH · Steuern', revenue: 5164000, planCost: 2183366, cost: 1210043.0077909403 },
       { product: 'ITS', customer: 'KStA ZH · separater Vertrag ITS', revenue: 8968000, planCost: 5073000, cost: null },
-      { product: 'ZP', customer: 'Gemeinden ZH', revenue: 5300000, planCost: 4921634, cost: 2727618.2222090648 }
+      { product: 'ZP', customer: 'Gemeinden ZH', revenue: 5279000, planCost: 4921634, cost: 2727618.2222090648 }
     ];
     const customerCosts = financeData ? financeData.customers.map(item => ({
       product: item.product,
       customer: item.customer,
       revenue: item.revenue,
       planCost: item.plan_cost,
-      cost: item.actual_cost
+      cost: item.actual_cost,
+      revenueBreakdown: item.revenue_breakdown?.['2026']
     })) : customerCostsFallback;
     const formatCustomerChf = value => `CHF ${new Intl.NumberFormat('de-CH', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value)}`;
     const formatCustomerCost = value => value === null ? '' : formatCustomerChf(value);
     const knownCostTotal = items => items.reduce((sum, item) => sum + (item.cost ?? 0), 0);
-    const costPeriodNote = 'Aufwände: Januar bis August 2026 berücksichtigt, inklusive verteilter gemeinsamer Kosten gemäss Kostensicht. Erträge: Jahresplanung 2026; unterschiedliche Zeiträume, daher keine Marge aus diesen Werten.';
     const snCustomers2026 = customerCosts.filter(item => item.product === 'SN');
     const zpCustomers2026 = customerCosts.filter(item => item.product === 'ZP');
     const taxCustomers2026 = [...snCustomers2026, ...zpCustomers2026];
@@ -307,7 +309,7 @@
     document.querySelector('#common .summary').innerHTML = `<article class="stat"><div class="label">Steuerertrag SN + ZP 2026</div><div class="value">CHF ${financeMio(taxRevenue2026)} Mio.</div><div class="delta delta-lines"><span>SN CHF ${financeMio(snRevenue2026)} Mio.</span><span>ZP Steuern CHF ${financeMio(zpRevenue2026)} Mio.</span></div></article><article class="stat"><div class="label">ITS Vertrag 2026 · separat</div><div class="value">CHF ${financeMio(its2026.revenue)} Mio.</div><div class="delta">Aufwand CHF ${financeMio(its2026.planCost)} Mio. · nicht im Total</div></article><article class="stat"><div class="label">Planaufwand Steuern 2026</div><div class="value">CHF ${financeMio(taxPlanCost2026)} Mio.</div><div class="delta">Bisher Jan.–Aug. · CHF ${financeMio(knownCostTotal(taxCustomers2026))} Mio.</div></article><article class="stat warn"><div class="label">FTE 2026 → 2034</div><div class="value">29,0 → 14,5</div><div class="delta">SVZ Teams · −50 %</div></article>`;
     const commonCustomerPanel = document.querySelector('#common > .panel');
     commonCustomerPanel.querySelector('h2').textContent = 'Erträge und Aufwände nach Kunden';
-    commonCustomerPanel.querySelector('.panel-head p').textContent = 'Erträge: Jahresplanung 2026 · Kundenaufwände: bis August · ITS-Vollkosten: Jahresplanung';
+    commonCustomerPanel.querySelector('.panel-head p').textContent = 'Erträge: DeltaMaster ER BeBu MJP 2026 · Kundenaufwände: bis August · ITS-Vollkosten: Jahresplanung';
     commonCustomerPanel.querySelector('.tag').textContent = `CHF ${financeMio(taxRevenue2026)} MIO. · STEUERN`;
     const commonCustomerTable = commonCustomerPanel.querySelector('table');
     const commonCustomers = [
@@ -328,22 +330,36 @@
     commonCustomerTable.tHead.rows[0].cells[1].textContent = 'Gesamtertrag 2026 (Plan)';
     commonCustomerTable.tHead.rows[0].cells[2].textContent = 'Ertragsanteil';
     commonCustomerTable.tHead.rows[0].cells[1].insertAdjacentHTML('afterend', '<th>Geplanter Aufwand 2026</th>');
-    const commonCostNote = document.createElement('p');
-    commonCostNote.className = 'note';
-    commonCostNote.textContent = `${costPeriodNote} Beim ITS-Vertrag entspricht der Aufwand CHF 5’073’000 den Vollkosten der Jahresplanung 2026.`;
-    commonCustomerPanel.append(commonCostNote);
     const snSummaryCards = document.querySelectorAll('#sn-finance .summary .stat');
     snSummaryCards[0].querySelector('.value').textContent = `CHF ${financeMio(snRevenue2026)} Mio.`;
     snSummaryCards[1].querySelector('.value').textContent = `CHF ${financeMio(snCustomers2026.reduce((sum, item) => sum + item.planCost, 0))} Mio.`;
     snSummaryCards[1].querySelector('.delta').textContent = `Bisheriger Aufwand ${financeData?.metadata?.sap_period ?? 'Jan.–Aug. 2026'} · CHF ${financeMio(knownCostTotal(snCustomers2026))} Mio.`;
+    const revenueBreakdownLabels = {
+      maintenance_operation: 'Wartung/Betrieb',
+      direct_orders: 'Direktaufträge',
+      customer_projects: 'Kundenprojekte'
+    };
+    const revenueBreakdownFallback = {
+      'KStA SG': { maintenance_operation: 8455000, direct_orders: 170000, customer_projects: 125000 },
+      'Cantone Ticino': { maintenance_operation: 3784000, direct_orders: 55000, customer_projects: 0 },
+      'Gemeinden SN': { maintenance_operation: 2243000, direct_orders: 0, customer_projects: 15000 },
+      'KStA ZH · Steuern': { maintenance_operation: 4343000, direct_orders: 712000, customer_projects: 109000 },
+      'Gemeinden ZH': { maintenance_operation: 5279000, direct_orders: 0, customer_projects: 0 }
+    };
+    const revenueBreakdownItems = item => Object.entries(item.revenueBreakdown ?? revenueBreakdownFallback[item.customer] ?? {})
+      .map(([type, value]) => `${revenueBreakdownLabels[type]} ${formatCustomerChf(value)}`);
+    const formatRevenueBreakdown = items => `<span class="breakdown">${items.map(item => `<span class="breakdown-item">${item}</span>`).join('')}</span>`;
     for (const product of ['SN', 'ZP']) {
       const customers = customerCosts.filter(item => item.product === product);
-      const rows = customers.map(item => `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td class="money">${formatCustomerChf(item.planCost)}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span></td></tr>`).join('');
-      const detail = product === 'SN' ? ' Planaufwand pro Kunde proportional zum Ist-Kostenanteil gemäss Kostensicht verteilt. Cantone Ticino entspricht DDC TI. Gemeinden SN: Gemeinden TG CHF 843’457 und Gemeinden SG CHF 2’069; der Ertrag liegt zusammengefasst für SG/TG vor.' : ' Planaufwand pro Kunde proportional zum Ist-Kostenanteil gemäss Kostensicht verteilt. Der Aufwand P.1009 ist der reinen Steuersicht KStA ZH zugeordnet.';
+      const totalRevenueBreakdown = customers.reduce((total, item) => {
+        for (const [type, value] of Object.entries(item.revenueBreakdown ?? revenueBreakdownFallback[item.customer] ?? {})) total[type] = (total[type] ?? 0) + value;
+        return total;
+      }, {});
+      const rows = customers.map(item => `<tr><td><strong>${item.customer}</strong></td><td class="money">${formatCustomerChf(item.revenue)}</td><td>${formatRevenueBreakdown(revenueBreakdownItems(item))}</td><td class="money">${formatCustomerChf(item.planCost)}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerCost(item.cost)}</span></td></tr>`).join('');
       const panel = document.createElement('div');
       panel.className = 'panel customer-costs';
       const totalLabel = `Total ${product}`;
-      panel.innerHTML = `<div class="panel-head"><div><h2>${product}: Erträge und Aufwände nach Kunden</h2><p>Planaufwand mit bisherigem Aufwand Januar–August 2026</p></div><span class="tag">PLAN / IST 2026</span></div><div class="table-wrap"><table><thead><tr><th>Kunde / Produkt</th><th>Gesamtertrag 2026 (Plan)</th><th>Geplanter Aufwand 2026</th></tr></thead><tbody>${rows}<tr class="total"><td>${totalLabel}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.revenue, 0))}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.planCost, 0))}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(customers))}</span></td></tr></tbody></table></div><p class="note">${costPeriodNote}${detail} Quelle: ${product}_Kostensicht.xlsm, Blatt «Kostensicht».</p>`;
+      panel.innerHTML = `<div class="panel-head"><div><h2>${product}: Erträge und Aufwände nach Kunden</h2><p>Planertrag nach Leistungsarten sowie Planaufwand mit bisherigem Aufwand Januar–August 2026</p></div><span class="tag">PLAN / IST 2026</span></div><div class="table-wrap"><table><thead><tr><th>Kunde / Produkt</th><th>Gesamtertrag 2026 (Plan)</th><th>Leistungsarten im Planertrag</th><th>Geplanter Aufwand 2026</th></tr></thead><tbody>${rows}<tr class="total"><td>${totalLabel}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.revenue, 0))}</td><td>${formatRevenueBreakdown(Object.entries(totalRevenueBreakdown).map(([type, value]) => `${revenueBreakdownLabels[type]} ${formatCustomerChf(value)}`))}</td><td class="money">${formatCustomerChf(customers.reduce((sum, item) => sum + item.planCost, 0))}<span class="cost-actual">Bisher Jan.–Aug. · ${formatCustomerChf(knownCostTotal(customers))}</span></td></tr></tbody></table></div>`;
       document.querySelector(`#${product.toLowerCase()}-finance .summary`).after(panel);
     }
     for (const [viewId, product] of [['sn-finance', 'SN'], ['zp-finance', 'ZP']]) {
@@ -352,10 +368,9 @@
       yearlyPanel.querySelector('.panel-head p').textContent = product === 'ZP' ? 'Reine Steuersicht 2026–2035' : 'Planwerte 2026–2035';
       yearlyPanel.querySelector('.panel-head + .table-wrap').remove();
       yearlyPanel.querySelector('h3').remove();
+      yearlyPanel.querySelector('.note')?.remove();
     }
     document.querySelector('.intro p').textContent = 'Budget 2026 und SAP-Ist der ausgewiesenen Buchungsperiode im gemeinsamen Entscheidbild.';
-    document.querySelector('footer span').textContent = 'Quellen: SN_ZP_Datenbasis.xlsx (Planung); SN_Kostensicht.xlsm / ZP_Kostensicht.xlsm (Aufwände Jan.–Aug. 2026).';
-    document.querySelector('footer span:last-child').textContent = financeData?.metadata ? `Dashboard ${financeData.metadata.dashboard_updated} · SAP-Abzug ${financeData.metadata.sap_extract_date} · Demografie gemäss letztem Import.` : 'Finanz-Metadaten konnten nicht geladen werden.';
 
     splitCurrencyBreakdowns(document.querySelector('main'));
     emphasizeCurrencyValues(document.querySelector('main'));

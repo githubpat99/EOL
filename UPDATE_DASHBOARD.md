@@ -2,7 +2,7 @@
 
 Die Daten bleiben nach Fachbereich getrennt:
 
-- `dashboard_finance_data.json`: Budget, SAP-Ist, Kunden, SN, ZP und separater ITS-Vertrag
+- `dashboard_finance_data.json`: DeltaMaster-Erträge 2026–2028, Annahmen ab 2029, SAP-Ist, Kunden, SN, ZP und separater ITS-Vertrag
 - `demografie_powerapps.json`: Demografie- und FTE-Planung
 - `EoL_SVZ_V0.6.xlsx`: historische Root-Datei; bleibt als Referenz in OneDrive und wird nicht importiert
 
@@ -22,7 +22,7 @@ Alternativ kann das Update weiterhin direkt in PowerShell ausgeführt werden:
    ```
 
 5. Das Skript übernimmt die SAP-Ist-Kosten aus dem Blatt `Kostensicht`, liest «Importierte Perioden» aus der ZP-Kostensicht und vergleicht diesen Stand mit den Monatsübersichten von SN und ZP. Nur identische, lückenlose Perioden werden übernommen. Danach aktualisiert es die SAP-Periodenbeschriftung und verteilt die Plan-Vollkosten anhand der aktuellen Kundenanteile.
-6. Budget- und Jahresplanwerte werden direkt in `dashboard_finance_data.json` gepflegt, bis auch dafür eine verbindliche Exportdatei vorliegt.
+6. Die Erträge 2026–2028 stammen aus DeltaMaster «ER BeBu MJP (DM)». Ertragswerte ab 2029 sind Annahmen. Jahres-Vollkosten werden direkt in `dashboard_finance_data.json` gepflegt, bis dafür eine verbindliche Exportdatei vorliegt.
 7. Dashboard prüfen, committen und pushen.
 
 ## Demografieupdate

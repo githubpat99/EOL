@@ -2,13 +2,14 @@
     "metadata":  {
                      "dashboard_updated":  "2026-09-09",
                      "budget_year":  2026,
-                     "budget_label":  "Budget 2026",
+                     "budget_label":  "DeltaMaster 2026–2028 / Annahmen ab 2029",
                      "sap_period":  "Jan.–Aug. 2026",
                      "sap_extract_date":  "2026-09-07",
                      "sources":  [
                                      "SN_Kostensicht.xlsm",
                                      "ZP_Kostensicht.xlsm",
-                                     "SN_ZP_Datenbasis.xlsx"
+                                     "DeltaMaster ER BeBu MJP (Erträge 2026–2028)",
+                                     "Annahmen ab 2029 in dashboard_finance_data.json"
                                  ]
                  },
     "contracts":  {
@@ -21,37 +22,122 @@
                       {
                           "product":  "SN",
                           "customer":  "KStA SG",
-                          "revenue":  8625000,
+                          "revenue":  8750000,
                           "plan_cost":  1697002,
-                          "actual_cost":  972486.10167792824
+                          "actual_cost":  972486.10167792824,
+                          "revenue_breakdown":  {
+                                                    "2026":  {
+                                                                 "maintenance_operation":  8455000,
+                                                                 "direct_orders":  170000,
+                                                                 "customer_projects":  125000
+                                                             },
+                                                    "2027":  {
+                                                                 "maintenance_operation":  8455000,
+                                                                 "direct_orders":  50000,
+                                                                 "customer_projects":  40000
+                                                             },
+                                                    "2028":  {
+                                                                 "maintenance_operation":  8455000,
+                                                                 "direct_orders":  50000,
+                                                                 "customer_projects":  0
+                                                             }
+                                                }
                       },
                       {
                           "product":  "SN",
                           "customer":  "Cantone Ticino",
-                          "revenue":  3909000,
+                          "revenue":  3839000,
                           "plan_cost":  4362545,
-                          "actual_cost":  2500005.7810805086
+                          "actual_cost":  2500005.7810805086,
+                          "revenue_breakdown":  {
+                                                    "2026":  {
+                                                                 "maintenance_operation":  3784000,
+                                                                 "direct_orders":  55000,
+                                                                 "customer_projects":  0
+                                                             },
+                                                    "2027":  {
+                                                                 "maintenance_operation":  3784000,
+                                                                 "direct_orders":  41000,
+                                                                 "customer_projects":  0
+                                                             },
+                                                    "2028":  {
+                                                                 "maintenance_operation":  3784000,
+                                                                 "direct_orders":  41000,
+                                                                 "customer_projects":  0
+                                                             }
+                                                }
                       },
                       {
                           "product":  "SN",
                           "customer":  "Gemeinden SN",
-                          "revenue":  2273000,
+                          "revenue":  2258000,
                           "plan_cost":  1475453,
-                          "actual_cost":  845525.51724158379
+                          "actual_cost":  845525.51724158379,
+                          "revenue_breakdown":  {
+                                                    "2026":  {
+                                                                 "maintenance_operation":  2243000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  15000
+                                                             },
+                                                    "2027":  {
+                                                                 "maintenance_operation":  2243000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  15000
+                                                             },
+                                                    "2028":  {
+                                                                 "maintenance_operation":  2243000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  15000
+                                                             }
+                                                }
                       },
                       {
                           "product":  "ZP",
                           "customer":  "KStA ZH · Steuern",
-                          "revenue":  5144000,
+                          "revenue":  5164000,
                           "plan_cost":  2183366,
-                          "actual_cost":  1210043.0077909403
+                          "actual_cost":  1210043.0077909403,
+                          "revenue_breakdown":  {
+                                                    "2026":  {
+                                                                 "maintenance_operation":  4343000,
+                                                                 "direct_orders":  712000,
+                                                                 "customer_projects":  109000
+                                                             },
+                                                    "2027":  {
+                                                                 "maintenance_operation":  4343000,
+                                                                 "direct_orders":  392000,
+                                                                 "customer_projects":  86000
+                                                             },
+                                                    "2028":  {
+                                                                 "maintenance_operation":  4343000,
+                                                                 "direct_orders":  210000,
+                                                                 "customer_projects":  86000
+                                                             }
+                                                }
                       },
                       {
                           "product":  "ZP",
                           "customer":  "Gemeinden ZH",
-                          "revenue":  5300000,
+                          "revenue":  5279000,
                           "plan_cost":  4921634,
-                          "actual_cost":  2727618.2222090648
+                          "actual_cost":  2727618.2222090648,
+                          "revenue_breakdown":  {
+                                                    "2026":  {
+                                                                 "maintenance_operation":  5279000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  0
+                                                             },
+                                                    "2027":  {
+                                                                 "maintenance_operation":  5354000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  0
+                                                             },
+                                                    "2028":  {
+                                                                 "maintenance_operation":  5429000,
+                                                                 "direct_orders":  0,
+                                                                 "customer_projects":  0
+                                                             }
+                                                }
                       },
                       {
                           "product":  "ITS",
@@ -64,81 +150,96 @@
     "annual":  {
                    "SN":  {
                               "2026":  {
-                                           "revenue":  14807000,
+                                           "revenue":  14847000,
                                            "full_cost":  7535000,
-                                           "margin":  7272000
+                                           "margin":  7312000,
+                                           "value_type":  "delta_master_sap"
                                        },
                               "2027":  {
                                            "revenue":  14628000,
                                            "full_cost":  7494000,
-                                           "margin":  7134000
+                                           "margin":  7134000,
+                                           "value_type":  "delta_master_sap"
                                        },
                               "2028":  {
                                            "revenue":  14588000,
                                            "full_cost":  7700000,
-                                           "margin":  6888000
+                                           "margin":  6888000,
+                                           "value_type":  "delta_master_sap"
                                        },
                               "2029":  {
                                            "revenue":  14588000,
                                            "full_cost":  7630000,
-                                           "margin":  6958000
+                                           "margin":  6958000,
+                                           "value_type":  "assumption"
                                        },
                               "2030":  {
                                            "revenue":  12588000,
                                            "full_cost":  7558000,
-                                           "margin":  5030000
+                                           "margin":  5030000,
+                                           "value_type":  "assumption"
                                        },
                               "2031":  {
                                            "revenue":  8804000,
                                            "full_cost":  7358000,
-                                           "margin":  1446000
+                                           "margin":  1446000,
+                                           "value_type":  "assumption"
                                        }
                           },
                    "ZP_STE":  {
                                   "2026":  {
-                                               "revenue":  10444000,
+                                               "revenue":  10443000,
                                                "full_cost":  7105000,
-                                               "margin":  3339000
+                                               "margin":  3338000,
+                                               "value_type":  "delta_master_sap"
                                            },
                                   "2027":  {
-                                               "revenue":  10176000,
+                                               "revenue":  10175000,
                                                "full_cost":  7315000,
-                                               "margin":  2861000
+                                               "margin":  2860000,
+                                               "value_type":  "delta_master_sap"
                                            },
                                   "2028":  {
-                                               "revenue":  10069000,
+                                               "revenue":  10068000,
                                                "full_cost":  7365000,
-                                               "margin":  2704000
+                                               "margin":  2703000,
+                                               "value_type":  "delta_master_sap"
                                            },
                                   "2029":  {
                                                "revenue":  10069000,
                                                "full_cost":  7327000,
-                                               "margin":  2742000
+                                               "margin":  2742000,
+                                               "value_type":  "assumption"
                                            },
                                   "2030":  {
                                                "revenue":  10069000,
                                                "full_cost":  7271000,
-                                               "margin":  2798000
+                                               "margin":  2798000,
+                                               "value_type":  "assumption"
                                            },
                                   "2031":  {
                                                "revenue":  10069000,
                                                "full_cost":  7591000,
-                                               "margin":  2478000
+                                               "margin":  2478000,
+                                               "value_type":  "assumption"
                                            },
                                   "2032":  {
                                                "revenue":  10069000,
                                                "full_cost":  10021000,
-                                               "margin":  48000
+                                               "margin":  48000,
+                                               "value_type":  "assumption"
                                            },
                                   "2033":  {
                                                "revenue":  10069000,
                                                "full_cost":  10121000,
-                                               "margin":  -52000
+                                               "margin":  -52000,
+                                               "value_type":  "assumption"
                                            },
                                   "2034":  {
                                                "revenue":  10069000,
                                                "full_cost":  10193000,
-                                               "margin":  -124000
+                                               "margin":  -124000,
+                                               "value_type":  "assumption"
                                            }
                               }
                }
