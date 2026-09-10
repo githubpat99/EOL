@@ -80,6 +80,20 @@
     td { padding:13px; border-bottom:1px solid var(--line); font-size:12px; vertical-align:top; }
     tr:last-child td { border-bottom:0; }
     tr.total td { background:#fbf8f0; font-weight:800; }
+    .year-legend { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:7px 13px; color:var(--muted); font:10px 'DM Mono',monospace; }
+    .year-legend span { display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+    .year-legend i { width:9px; height:9px; border-radius:50%; border:1px solid rgba(23,35,31,.12); }
+    .year-legend .budget { background:#cce9e2; }
+    .year-legend .mjp { background:#f2dfaa; }
+    .year-legend .assumption { background:#e8e3d8; }
+    tr.year-budget td { background:#f0faf7; }
+    tr.year-mjp td { background:#fdf8e9; }
+    tr.year-assumption td { background:#faf8f3; color:#64706b; }
+    tr.year-budget td:first-child { box-shadow:inset 3px 0 #58a99d; }
+    tr.year-mjp td:first-child { box-shadow:inset 3px 0 #d1ac45; }
+    tr.year-assumption td:first-child { box-shadow:inset 3px 0 #c8c1b4; }
+    .customer-costs { border-left:3px solid #58a99d; }
+    .customer-costs .tag { padding:0; border:0; background:transparent; color:#58a99d; }
     #demography th:last-child,#demography td:last-child { border-left:1px solid var(--line); padding-left:24px; }
     .money { font-size:16px; font-weight:800; white-space:nowrap; }
     .breakdown { display:grid; gap:6px; }
@@ -366,9 +380,18 @@
       const yearlyPanel = document.querySelector(`#${viewId} .panel:not(.customer-costs)`);
       yearlyPanel.querySelector('.panel-head h2').textContent = `${product}: Jahresübersicht Ertrag und Aufwand`;
       yearlyPanel.querySelector('.panel-head p').textContent = product === 'ZP' ? 'Reine Steuersicht 2026–2035' : 'Planwerte 2026–2035';
+      const yearLegend = document.createElement('div');
+      yearLegend.className = 'year-legend';
+      yearLegend.setAttribute('aria-label', 'Legende Datenstatus');
+      yearLegend.innerHTML = '<span><i class="budget"></i>2026 · aktuell / Budget</span><span><i class="mjp"></i>2027–2028 · MJP</span><span><i class="assumption"></i>ab 2029 · Annahme</span>';
+      yearlyPanel.querySelector('.panel-head .tag').replaceWith(yearLegend);
       yearlyPanel.querySelector('.panel-head + .table-wrap').remove();
       yearlyPanel.querySelector('h3').remove();
       yearlyPanel.querySelector('.note')?.remove();
+      yearlyPanel.querySelectorAll('tbody tr').forEach(row => {
+        const year = Number(row.cells[0]?.textContent.trim());
+        row.classList.add(year === 2026 ? 'year-budget' : year <= 2028 ? 'year-mjp' : 'year-assumption');
+      });
     }
     document.querySelector('.intro p').textContent = 'Budget 2026 und SAP-Ist der ausgewiesenen Buchungsperiode im gemeinsamen Entscheidbild.';
 
